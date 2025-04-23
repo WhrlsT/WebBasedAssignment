@@ -1,0 +1,56 @@
+/* Layout Styles */
+
+/* Grid system */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.col {
+    flex: 1 0 0%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+/* Flexbox utilities */
+.d-flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+/* Spacing utilities */
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.p-20 {
+    padding: 20px;
+}
+
+/* Responsive layout */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+}
