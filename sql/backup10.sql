@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2025 at 07:22 PM
+-- Generation Time: Apr 24, 2025 at 04:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `sigmamart`
 --
-CREATE DATABASE IF NOT EXISTS `sigmamart` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `sigmamart`;
 
 -- --------------------------------------------------------
 
@@ -62,6 +60,13 @@ CREATE TABLE `cart` (
   `Quantity` int(11) NOT NULL DEFAULT 1,
   `DateAdded` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`CartID`, `UserID`, `ProductID`, `Quantity`, `DateAdded`) VALUES
+(26, 6, 40, 6, '2025-04-01 00:42:49');
 
 -- --------------------------------------------------------
 
@@ -111,41 +116,13 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`id`, `user_id`, `order_reference`, `total_amount`, `shipping_cost`, `status`, `payment_id`, `payment_date`, `payment_session_id`, `order_date`, `payment_method`, `tracking_number`, `admin_notes`) VALUES
 (27, 6, 'ORD-1E59B405', 99999999.99, 10.00, 'Paid', NULL, NULL, NULL, '2025-04-01 00:38:27', 'paypal', '', ''),
-(28, 6, 'ORD-F6E03860', 559.00, 10.00, 'Cancelled', 'pi_3R8lOlPZSuoPG7KD3U8JQAXX', '2025-04-01 00:41:28', NULL, '2025-04-01 00:40:45', 'stripe', NULL, NULL),
-(29, 6, 'ORD-0D0F7256', 81.00, 10.00, 'Cancelled', 'PP_1743439352_29', '2025-04-01 00:42:32', NULL, '2025-04-01 00:42:18', 'paypal', NULL, NULL),
+(28, 6, 'ORD-F6E03860', 559.00, 10.00, 'Paid', 'pi_3R8lOlPZSuoPG7KD3U8JQAXX', '2025-04-01 00:41:28', NULL, '2025-04-01 00:40:45', 'stripe', NULL, NULL),
+(29, 6, 'ORD-0D0F7256', 81.00, 10.00, 'Paid', 'PP_1743439352_29', '2025-04-01 00:42:32', NULL, '2025-04-01 00:42:18', 'paypal', NULL, NULL),
 (30, 7, 'ORD-7D9B582C', 223.00, 10.00, 'Pending', NULL, NULL, NULL, '2025-04-24 12:37:05', 'stripe', NULL, NULL),
-(31, 7, 'ORD-EF153FCD', 129.00, 10.00, 'Cancelled', NULL, NULL, NULL, '2025-04-24 12:39:08', 'paypal', '', ''),
-(32, 7, 'ORD-2B30F26E', 99999999.99, 10.00, 'Cancelled', NULL, NULL, NULL, '2025-04-24 12:40:19', 'stripe', '', ''),
-(33, 7, 'ORD-B9AC2780', 81.00, 10.00, 'Received', 'pi_3RHHcvRtqjLfe2On168fI6RW', '2025-04-24 12:44:39', NULL, '2025-04-24 12:43:08', 'stripe', 'ABCD123123123123', 'abc'),
-(34, 7, 'ORD-1FC64261', 81.00, 10.00, 'Paid', 'pi_3RHOguRtqjLfe2On17YpwXye', '2025-04-24 20:16:08', NULL, '2025-04-24 20:15:42', 'stripe', NULL, NULL),
-(35, 6, 'ORD-1E80A754', 795.00, 10.00, 'Refunded', 'pi_3RHQbwRtqjLfe2On0giZiADO', '2025-04-24 22:19:03', NULL, '2025-04-24 22:18:43', 'stripe', '', ''),
-(36, 6, 'ORD-61D8F943', 200.00, 10.00, 'Paid', 'pi_3RHS2KRtqjLfe2On0dTA4SaP', '2025-04-24 23:50:12', NULL, '2025-04-24 23:50:03', 'stripe', NULL, NULL),
-(37, 6, 'ORD-8554172F', 81.00, 10.00, 'Paid', 'pi_3RHS7gRtqjLfe2On112rVzhA', '2025-04-24 23:55:45', NULL, '2025-04-24 23:55:35', 'stripe', NULL, NULL),
-(38, 6, 'ORD-59CF2B21', 55.00, 10.00, 'Paid', 'pi_3RHSBZRtqjLfe2On0eowTm2r', '2025-04-24 23:59:46', NULL, '2025-04-24 23:59:36', 'stripe', NULL, NULL),
-(39, 6, 'ORD-998C281D', 129.00, 10.00, 'Paid', 'PP_1745510528_39', '2025-04-25 00:02:08', NULL, '2025-04-25 00:01:35', 'paypal', NULL, NULL),
-(40, 6, 'ORD-AC95FD91', 129.00, 10.00, 'Paid', 'PP_1745510637_40', '2025-04-25 00:03:57', NULL, '2025-04-25 00:03:41', 'paypal', NULL, NULL),
-(41, 6, 'ORD-988B7127', 55.00, 10.00, 'Paid', 'pi_3RHSNMRtqjLfe2On1zjPBm7T', '2025-04-25 00:11:56', NULL, '2025-04-25 00:11:48', 'stripe', NULL, NULL),
-(42, 6, 'ORD-B24A350E', 140.00, 10.00, 'Paid', 'pi_3RHSPhRtqjLfe2On0Vum7pcu', '2025-04-25 00:14:22', NULL, '2025-04-25 00:14:12', 'stripe', NULL, NULL),
-(43, 6, 'ORD-CABAC2F6', 129.00, 10.00, 'Paid', 'pi_3RHSRCRtqjLfe2On1VrWI1wp', '2025-04-25 00:15:54', NULL, '2025-04-25 00:15:45', 'stripe', NULL, NULL),
-(44, 6, 'ORD-8EE03A57', 75.00, 10.00, 'Paid', 'pi_3RHSVxRtqjLfe2On1XrAJi73', '2025-04-25 00:20:50', NULL, '2025-04-25 00:20:41', 'stripe', NULL, NULL),
-(45, 6, 'ORD-89B1F65F', 81.00, 10.00, 'Paid', 'pi_3RHSZxRtqjLfe2On0nfOxDfl', '2025-04-25 00:24:58', NULL, '2025-04-25 00:24:48', 'stripe', NULL, NULL),
-(46, 6, 'ORD-B8D59C9D', 129.00, 10.00, 'Paid', 'pi_3RHSbvRtqjLfe2On0nkxWStZ', '2025-04-25 00:27:04', NULL, '2025-04-25 00:26:50', 'stripe', NULL, NULL),
-(47, 6, 'ORD-531B260A', 81.00, 10.00, 'Paid', 'pi_3RHSeCRtqjLfe2On1fVH6HW7', '2025-04-25 00:29:21', NULL, '2025-04-25 00:29:11', 'stripe', NULL, NULL),
-(48, 6, 'ORD-5FA592F0', 75.00, 10.00, 'Paid', 'pi_3RHSfbRtqjLfe2On1NhPEuYi', '2025-04-25 00:30:48', NULL, '2025-04-25 00:30:38', 'stripe', NULL, NULL),
-(49, 6, 'ORD-69C2BF79', 75.00, 10.00, 'Paid', 'pi_3RHSpsRtqjLfe2On1fd4Kiwr', '2025-04-25 00:41:32', NULL, '2025-04-25 00:41:15', 'stripe', NULL, NULL),
-(50, 6, 'ORD-8238108B', 81.00, 10.00, 'Paid', 'pi_3RHStlRtqjLfe2On1HaBVorb', '2025-04-25 00:45:28', NULL, '2025-04-25 00:45:17', 'stripe', NULL, NULL),
-(51, 6, 'ORD-E443CD5A', 75.00, 10.00, 'Paid', 'pi_3RHSxBRtqjLfe2On1pTjZBgt', '2025-04-25 00:48:58', NULL, '2025-04-25 00:48:48', 'stripe', NULL, NULL),
-(52, 6, 'ORD-E36828FF', 55.00, 10.00, 'Pending', NULL, NULL, NULL, '2025-04-25 00:53:29', 'stripe', NULL, NULL),
-(53, 6, 'ORD-D01444F7', 55.00, 10.00, 'Paid', 'PP_1745513699_53', '2025-04-25 00:54:59', NULL, '2025-04-25 00:54:23', 'paypal', NULL, NULL),
-(54, 6, 'ORD-31685AB4', 55.00, 10.00, 'Paid', 'pi_3RHT4eRtqjLfe2On11WZX4Pg', '2025-04-25 00:56:41', NULL, '2025-04-25 00:56:31', 'stripe', NULL, NULL),
-(55, 6, 'ORD-966B4FD5', 75.00, 10.00, 'Paid', 'pi_3RHT5FRtqjLfe2On0YKxL4fz', '2025-04-25 00:57:18', NULL, '2025-04-25 00:57:08', 'stripe', NULL, NULL),
-(56, 6, 'ORD-9F88C2A7', 75.00, 10.00, 'Paid', 'pi_3RHT6kRtqjLfe2On0SOA2sOG', '2025-04-25 00:58:51', NULL, '2025-04-25 00:58:41', 'stripe', NULL, NULL),
-(57, 6, 'ORD-481A1EC3', 75.00, 10.00, 'Pending', NULL, NULL, NULL, '2025-04-25 00:59:47', 'paypal', NULL, NULL),
-(58, 6, 'ORD-53EB5809', 75.00, 10.00, 'Paid', 'PP_1745514022_58', '2025-04-25 01:00:22', NULL, '2025-04-25 00:59:58', 'paypal', NULL, NULL),
-(59, 6, 'ORD-9B4264BE', 55.00, 10.00, 'Paid', 'pi_3RHT9kRtqjLfe2On1q7QM2QZ', '2025-04-25 01:02:06', NULL, '2025-04-25 01:01:47', 'stripe', NULL, NULL),
-(60, 6, 'ORD-87EEB2A3', 55.00, 10.00, 'Paid', 'pi_3RHTBeRtqjLfe2On02YDugUJ', '2025-04-25 01:03:55', NULL, '2025-04-25 01:03:46', 'stripe', NULL, NULL),
-(61, 6, 'ORD-8339442F', 55.00, 10.00, 'Paid', 'pi_3RHTCiRtqjLfe2On0biwNJwo', '2025-04-25 01:05:01', NULL, '2025-04-25 01:04:51', 'stripe', NULL, NULL),
-(62, 6, 'ORD-D1F73E70', 55.00, 10.00, 'Paid', 'PP_1745514359_62', '2025-04-25 01:05:59', NULL, '2025-04-25 01:05:37', 'paypal', NULL, NULL);
+(31, 7, 'ORD-EF153FCD', 129.00, 10.00, 'Pending', NULL, NULL, NULL, '2025-04-24 12:39:08', 'paypal', NULL, NULL),
+(32, 7, 'ORD-2B30F26E', 99999999.99, 10.00, 'Pending', NULL, NULL, NULL, '2025-04-24 12:40:19', 'stripe', NULL, NULL),
+(33, 7, 'ORD-B9AC2780', 81.00, 10.00, 'refund_requested', 'pi_3RHHcvRtqjLfe2On168fI6RW', '2025-04-24 12:44:39', NULL, '2025-04-24 12:43:08', 'stripe', '', ''),
+(34, 7, 'ORD-1FC64261', 81.00, 10.00, 'Paid', 'pi_3RHOguRtqjLfe2On17YpwXye', '2025-04-24 20:16:08', NULL, '2025-04-24 20:15:42', 'stripe', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -179,37 +156,7 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`) 
 (47, 31, 40, 1, 119.00),
 (48, 32, 39, 1, 99999999.99),
 (49, 33, 41, 1, 71.00),
-(50, 34, 41, 1, 71.00),
-(51, 35, 41, 1, 71.00),
-(52, 35, 40, 6, 119.00),
-(53, 36, 40, 1, 119.00),
-(54, 36, 41, 1, 71.00),
-(55, 37, 41, 1, 71.00),
-(56, 38, 32, 1, 45.00),
-(57, 39, 40, 1, 119.00),
-(58, 40, 40, 1, 119.00),
-(59, 41, 32, 1, 45.00),
-(60, 42, 34, 1, 130.00),
-(61, 43, 40, 1, 119.00),
-(62, 44, 31, 1, 65.00),
-(63, 45, 41, 1, 71.00),
-(64, 46, 40, 1, 119.00),
-(65, 47, 41, 1, 71.00),
-(66, 48, 31, 1, 65.00),
-(67, 49, 31, 1, 65.00),
-(68, 50, 41, 1, 71.00),
-(69, 51, 31, 1, 65.00),
-(70, 52, 32, 1, 45.00),
-(71, 53, 32, 1, 45.00),
-(72, 54, 32, 1, 45.00),
-(73, 55, 31, 1, 65.00),
-(74, 56, 31, 1, 65.00),
-(75, 57, 31, 1, 65.00),
-(76, 58, 31, 1, 65.00),
-(77, 59, 32, 1, 45.00),
-(78, 60, 32, 1, 45.00),
-(79, 61, 32, 1, 45.00),
-(80, 62, 32, 1, 45.00);
+(50, 34, 41, 1, 71.00);
 
 -- --------------------------------------------------------
 
@@ -243,28 +190,7 @@ INSERT INTO `payment_logs` (`id`, `txn_id`, `order_reference`, `payment_amount`,
 (7, 'pi_3R8lOlPZSuoPG7KD3U8JQAXX', 'ORD-F6E03860', 559.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3R8lOlPZSuoPG7KD3U8JQAXX\",\"status\":\"succeeded\"}', '2025-03-31 16:41:28'),
 (8, 'PP_1743439352_29', 'ORD-0D0F7256', 81.00, 'MYR', 'whrltan05@gmail.com', 'Completed', '{\"order_id\":29,\"payment_method\":\"paypal\",\"success_page\":true}', '2025-03-31 16:42:32'),
 (9, 'pi_3RHHcvRtqjLfe2On168fI6RW', 'ORD-B9AC2780', 81.00, 'myr', 'lowwh-wp23@student.tarc.edu.my', 'succeeded', '{\"payment_intent\":\"pi_3RHHcvRtqjLfe2On168fI6RW\",\"status\":\"succeeded\"}', '2025-04-24 04:44:39'),
-(10, 'pi_3RHOguRtqjLfe2On17YpwXye', 'ORD-1FC64261', 81.00, 'myr', 'lowwh-wp23@student.tarc.edu.my', 'succeeded', '{\"payment_intent\":\"pi_3RHOguRtqjLfe2On17YpwXye\",\"status\":\"succeeded\"}', '2025-04-24 12:16:08'),
-(11, 'pi_3RHQbwRtqjLfe2On0giZiADO', 'ORD-1E80A754', 795.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHQbwRtqjLfe2On0giZiADO\",\"status\":\"succeeded\"}', '2025-04-24 14:19:03'),
-(12, 'pi_3RHS2KRtqjLfe2On0dTA4SaP', 'ORD-61D8F943', 200.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHS2KRtqjLfe2On0dTA4SaP\",\"status\":\"succeeded\"}', '2025-04-24 15:50:12'),
-(13, 'pi_3RHS7gRtqjLfe2On112rVzhA', 'ORD-8554172F', 81.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHS7gRtqjLfe2On112rVzhA\",\"status\":\"succeeded\"}', '2025-04-24 15:55:45'),
-(14, 'pi_3RHSBZRtqjLfe2On0eowTm2r', 'ORD-59CF2B21', 55.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHSBZRtqjLfe2On0eowTm2r\",\"status\":\"succeeded\"}', '2025-04-24 15:59:46'),
-(15, 'pi_3RHSNMRtqjLfe2On1zjPBm7T', 'ORD-988B7127', 55.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHSNMRtqjLfe2On1zjPBm7T\",\"status\":\"succeeded\"}', '2025-04-24 16:11:56'),
-(16, 'pi_3RHSPhRtqjLfe2On0Vum7pcu', 'ORD-B24A350E', 140.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHSPhRtqjLfe2On0Vum7pcu\",\"status\":\"succeeded\"}', '2025-04-24 16:14:22'),
-(17, 'pi_3RHSRCRtqjLfe2On1VrWI1wp', 'ORD-CABAC2F6', 129.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHSRCRtqjLfe2On1VrWI1wp\",\"status\":\"succeeded\"}', '2025-04-24 16:15:54'),
-(18, 'pi_3RHSVxRtqjLfe2On1XrAJi73', 'ORD-8EE03A57', 75.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHSVxRtqjLfe2On1XrAJi73\",\"status\":\"succeeded\"}', '2025-04-24 16:20:50'),
-(19, 'pi_3RHSZxRtqjLfe2On0nfOxDfl', 'ORD-89B1F65F', 81.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHSZxRtqjLfe2On0nfOxDfl\",\"status\":\"succeeded\"}', '2025-04-24 16:24:58'),
-(20, 'pi_3RHSbvRtqjLfe2On0nkxWStZ', 'ORD-B8D59C9D', 129.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHSbvRtqjLfe2On0nkxWStZ\",\"status\":\"succeeded\"}', '2025-04-24 16:27:04'),
-(21, 'pi_3RHSeCRtqjLfe2On1fVH6HW7', 'ORD-531B260A', 81.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHSeCRtqjLfe2On1fVH6HW7\",\"status\":\"succeeded\"}', '2025-04-24 16:29:21'),
-(22, 'pi_3RHSfbRtqjLfe2On1NhPEuYi', 'ORD-5FA592F0', 75.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHSfbRtqjLfe2On1NhPEuYi\",\"status\":\"succeeded\"}', '2025-04-24 16:30:48'),
-(23, 'pi_3RHSpsRtqjLfe2On1fd4Kiwr', 'ORD-69C2BF79', 75.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHSpsRtqjLfe2On1fd4Kiwr\",\"status\":\"succeeded\"}', '2025-04-24 16:41:32'),
-(24, 'pi_3RHStlRtqjLfe2On1HaBVorb', 'ORD-8238108B', 81.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHStlRtqjLfe2On1HaBVorb\",\"status\":\"succeeded\"}', '2025-04-24 16:45:28'),
-(25, 'pi_3RHSxBRtqjLfe2On1pTjZBgt', 'ORD-E443CD5A', 75.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHSxBRtqjLfe2On1pTjZBgt\",\"status\":\"succeeded\"}', '2025-04-24 16:48:58'),
-(26, 'pi_3RHT4eRtqjLfe2On11WZX4Pg', 'ORD-31685AB4', 55.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHT4eRtqjLfe2On11WZX4Pg\",\"status\":\"succeeded\"}', '2025-04-24 16:56:41'),
-(27, 'pi_3RHT5FRtqjLfe2On0YKxL4fz', 'ORD-966B4FD5', 75.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHT5FRtqjLfe2On0YKxL4fz\",\"status\":\"succeeded\"}', '2025-04-24 16:57:18'),
-(28, 'pi_3RHT6kRtqjLfe2On0SOA2sOG', 'ORD-9F88C2A7', 75.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHT6kRtqjLfe2On0SOA2sOG\",\"status\":\"succeeded\"}', '2025-04-24 16:58:51'),
-(29, 'pi_3RHT9kRtqjLfe2On1q7QM2QZ', 'ORD-9B4264BE', 55.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHT9kRtqjLfe2On1q7QM2QZ\",\"status\":\"succeeded\"}', '2025-04-24 17:02:06'),
-(30, 'pi_3RHTBeRtqjLfe2On02YDugUJ', 'ORD-87EEB2A3', 55.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHTBeRtqjLfe2On02YDugUJ\",\"status\":\"succeeded\"}', '2025-04-24 17:03:55'),
-(31, 'pi_3RHTCiRtqjLfe2On0biwNJwo', 'ORD-8339442F', 55.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHTCiRtqjLfe2On0biwNJwo\",\"status\":\"succeeded\"}', '2025-04-24 17:05:01');
+(10, 'pi_3RHOguRtqjLfe2On17YpwXye', 'ORD-1FC64261', 81.00, 'myr', 'lowwh-wp23@student.tarc.edu.my', 'succeeded', '{\"payment_intent\":\"pi_3RHOguRtqjLfe2On17YpwXye\",\"status\":\"succeeded\"}', '2025-04-24 12:16:08');
 
 -- --------------------------------------------------------
 
@@ -361,17 +287,17 @@ INSERT INTO `products` (`ProductID`, `CategoryID`, `BrandID`, `ProductName`, `Pr
 (28, 1001, 1005, 'Disney Princess\'s Fairy Tales', 50, 'Brand: SigmaMart\r\n\r\nSize: \r\nStorybook shell height approximately 9.5cm;\r\nThe figure height is approximately 4.2-6.1cm\r\n\r\nMaterial: PVC/ABS/Hardware\r\n\r\n', '2025-03-31 20:02:44', 1),
 (29, 1001, 1005, 'DIMOO WORLD × DISNEY Series Figures', 56, 'Brand: Sigma Mart\r\n\r\nSize: Height about 7-10cm\r\n\r\nMaterial: PVC/ABS/Nylon', '2025-03-31 20:05:56', 0),
 (30, 1001, 1005, 'Mickey Family Cute Together Keychain Series Figures', 71, 'Brand: Sigma Mart\r\n\r\nSize: Height about 14-15cm\r\n\r\n(Lanyard not included)\r\n\r\nMaterial: PVC/ABS/Polyester', '2025-03-31 20:08:10', 0),
-(31, 1001, 1009, 'Hololive Production Fuwacororin Box Vol.2', 65, 'Brand : Hololive\r\n\r\nSize approx. 100mm\r\n\r\n	Assorted according to the maker\'s rate from 7 types.\r\n\r\nLineup:\r\n-AZKi\r\n-Shirakami Fubuki\r\n-Murasaki Shion\r\n-Usada Pekora\r\n-Tsunomaki Watame\r\n-Momosuzu Nene\r\n-Takane Lui', '2025-03-31 20:14:05', 9),
-(32, 1001, 1009, 'Hololive Deformation Collection Vol.1', 45, 'Brand: Hololive\r\n\r\nAge Recommend: 15+\r\n\r\nProduct size: Approx. 2cm-5cm\r\n\r\nMaterial: Plastic\r\n\r\nProduct Detail: 8 basic design', '2025-03-31 20:15:57', 9),
+(31, 1001, 1009, 'Hololive Production Fuwacororin Box Vol.2', 65, 'Brand : Hololive\r\n\r\nSize approx. 100mm\r\n\r\n	Assorted according to the maker\'s rate from 7 types.\r\n\r\nLineup:\r\n-AZKi\r\n-Shirakami Fubuki\r\n-Murasaki Shion\r\n-Usada Pekora\r\n-Tsunomaki Watame\r\n-Momosuzu Nene\r\n-Takane Lui', '2025-03-31 20:14:05', 1),
+(32, 1001, 1009, 'Hololive Deformation Collection Vol.1', 45, 'Brand: Hololive\r\n\r\nAge Recommend: 15+\r\n\r\nProduct size: Approx. 2cm-5cm\r\n\r\nMaterial: Plastic\r\n\r\nProduct Detail: 8 basic design', '2025-03-31 20:15:57', 0),
 (33, 1002, 1004, 'Amuseables Beatie Heart', 180, 'Amuseables Beatie Heart is here to share love all year long. A bright red face with big stitched smile with a matching fluffy mane, Beatie has matching red fine cord legs, making this heart of hearts the perfect gift for someone special.\r\n\r\nDimensions: 24cm x 23cm x 7cm\r\nSitting Height: 20cm\r\nMain Materials: Polyester\r\nInner Filling: Polyester Fibres, PE Beans\r\nHard Eye\r\nSKU: A3REDFH', '2025-03-31 20:21:17', 1),
-(34, 1002, 1004, 'Bashful Blush Bunny', 130, 'Bashful Blush Bunny Bag Charm makes every day rosy! Our iconic Bashful Bunny is soft and sweet in blush pink fur, with lop ears and a pale pink nose. Use the silver clasp to attach this bunny to any bag for the softest sidekick.\r\n\r\nDimensions: 18cm x 5cm x 4cm\r\nSitting Height: 13cm\r\nMain Materials: Polyester\r\nInner Filling: Polyester Fibres\r\nEmbroidered Eye\r\nSKU: BAS4ELBC', '2025-03-31 20:22:27', 1),
+(34, 1002, 1004, 'Bashful Blush Bunny', 130, 'Bashful Blush Bunny Bag Charm makes every day rosy! Our iconic Bashful Bunny is soft and sweet in blush pink fur, with lop ears and a pale pink nose. Use the silver clasp to attach this bunny to any bag for the softest sidekick.\r\n\r\nDimensions: 18cm x 5cm x 4cm\r\nSitting Height: 13cm\r\nMain Materials: Polyester\r\nInner Filling: Polyester Fibres\r\nEmbroidered Eye\r\nSKU: BAS4ELBC', '2025-03-31 20:22:27', 0),
 (35, 1002, 1004, 'Amuseables Sunflower', 200, 'Add a little sunshine to your day with Amuseables Sunflower. This trio of flowers have brown fur faces, bright yellow petals and deep green stalks. Sat in a beautiful brown linen pot with mocha soil, these bright flowers make every day a little sunnier.\r\n\r\nDimensions: 35cm x 11cm x 11cm\r\nSitting Height: 35cm\r\nMain Materials: Polyester\r\nInner Filling: Polyester Fibres, PE Beans\r\nEmbroidered Eye\r\nSKU: A2SNF', '2025-03-31 20:23:27', 1),
 (36, 1002, 1005, 'Baymax Sakura Medium Plush, Big Hero 6', 145, 'Our super soft, velvety Baymax Sakura Plush comes from San Fransokyo exclusively via Disney Store Japan. Plump and reassuring, this huggable, all-too-adorable stuffed toy is decorated with cherry blossom appliqués and pastel accents.\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nVelvety velour covering\r\nSoft fill\r\nCherry blossom appliqués\r\nGlitter accents\r\nSoft ice cream cone with shimmering fabric scoops\r\nInspired by Disney\'s Big Hero 6 (2014)\r\nPart of the Sakura 2025 Collection\r\nCreated for Disney Store Japan\r\nThe bare necessities\r\n\r\nPolyester fiber / polyethylene foam\r\nApprox. 34.3cm H\r\nImported', '2025-03-31 20:25:36', 1),
 (37, 1002, 1005, 'Rex Medium Plush, Toy Story Rex Game', 120, 'It’s game time with the Rex Medium Plush from the Rex Game collection! Join your favourite Toy Story characters for a fun-filled party full of laughter and excitement. With its soft plush texture and vibrant colours, this plush is guaranteed to brighten your day.\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nPart of the Rex Game Collection\r\nCreated for Disney Store\r\nThe bare necessities\r\n\r\nPolyester\r\nApprox. 28.5cm H x 27cm L x 35cm W\r\nImported', '2025-03-31 20:26:26', 0),
 (38, 1002, 1005, 'Dale Sitting Plush, Chip \'n Dale', 120, 'Bring home the magic from Disney Store Japan with this Dale Sitting Plush. With an adorable head-tilt and sparkling eyes, Dale radiates charm in a gentle pastel hue. Soft, fluffy, and irresistibly cuddly—perfect for bringing comfort and joy!\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nPart of the Petanko Collection\r\nCreated for Disney Store Japan\r\nThe bare necessities\r\n\r\nPolyester\r\nApprox. 21cm H x 15cm W x 16cm D\r\nImported', '2025-03-31 20:27:24', 0),
 (39, 1002, 1005, 'President Xinnie the Pooh', 2147483647, 'Bring home the magic from Disney Store Japan with this Xinnie the Pooh. With an adorable head-tilt and sparkling eyes, Pooh radiates charm in a gentle pastel hue. Soft, fluffy, and irresistibly cuddly—perfect for bringing comfort and joy!\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nInspired by Disney\'s The Many Adventures of Winnie the Pooh (1977)\r\nPart of the Petanko Collection\r\nCreated for Disney Store Japan\r\nThe bare necessities\r\n\r\nPolyester\r\nApprox. 33cm H x 22cm W x 22cm D\r\nImported', '2025-03-31 20:29:17', 2),
-(40, 1001, 1003, 'Labubu The Monsters Coca-Cola Series Vinyl Face', 119, 'Brand: POP MART\r\nSize: Height about 15.5cm-17cm\r\nMaterial: Shell: Polyester/ABS/PVC; Stuffing: Polyester/Iron Wire', '2025-03-31 20:38:19', 14),
-(41, 1001, 1003, 'The Monsters - Have a seat Vinyl Plush', 71, 'Brand: POP MART\r\nSize: \r\nHeight about 8*7*20cm(including hanging loop)\r\nHeight about 8*7*15cm(excluding hanging loop)\r\nMaterial: \r\nShell: 60%PVC, 40%Polyester\r\nStuffing: 70%Polyester, 20%ABS, 5%Iron Wire, 5%Nylon', '2025-03-31 20:40:03', 14);
+(40, 1001, 1003, 'Labubu The Monsters Coca-Cola Series Vinyl Face', 119, 'Brand: POP MART\r\nSize: Height about 15.5cm-17cm\r\nMaterial: Shell: Polyester/ABS/PVC; Stuffing: Polyester/Iron Wire', '2025-03-31 20:38:19', 9),
+(41, 1001, 1003, 'The Monsters - Have a seat Vinyl Plush', 71, 'Brand: POP MART\r\nSize: \r\nHeight about 8*7*20cm(including hanging loop)\r\nHeight about 8*7*15cm(excluding hanging loop)\r\nMaterial: \r\nShell: 60%PVC, 40%Polyester\r\nStuffing: 70%Polyester, 20%ABS, 5%Iron Wire, 5%Nylon', '2025-03-31 20:40:03', 8);
 
 -- --------------------------------------------------------
 
@@ -404,7 +330,7 @@ INSERT INTO `product_stocks` (`StockID`, `ProductID`, `Quantity`, `LastUpdated`)
 (38, 38, 0, '2025-03-31 12:27:24'),
 (39, 39, 1, '2025-03-31 12:29:17'),
 (40, 40, 99, '2025-03-31 12:38:19'),
-(41, 41, 2221, '2025-04-24 15:31:25');
+(41, 41, 222, '2025-03-31 12:40:03');
 
 -- --------------------------------------------------------
 
@@ -429,8 +355,7 @@ CREATE TABLE `refund_requests` (
 --
 
 INSERT INTO `refund_requests` (`id`, `order_id`, `user_id`, `reason`, `details`, `status`, `requested_at`, `processed_at`, `admin_notes`) VALUES
-(1, 33, 7, 'changed_mind', '', 'pending', '2025-04-24 20:07:11', NULL, NULL),
-(2, 35, 6, 'changed_mind', 'abc', 'pending', '2025-04-24 23:03:46', NULL, NULL);
+(1, 33, 7, 'changed_mind', '', 'pending', '2025-04-24 20:07:11', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -465,35 +390,7 @@ INSERT INTO `shipping_addresses` (`id`, `user_id`, `order_id`, `first_name`, `la
 (31, 7, 31, 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '0123456789', 'a-10-11', 'sripetaling', 'kl', '11111', '2025-04-24 04:39:08'),
 (32, 7, 32, 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '0123456789', 'a-10-11', 'sripetaling', 'kl', '11111', '2025-04-24 04:40:19'),
 (33, 7, 33, 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '0123456789', 'a-10-11', 'sripetaling', 'kl', '11111', '2025-04-24 04:43:08'),
-(34, 7, 34, 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '0123456789', 'a-10-11', 'sripetaling', 'kl', '11111', '2025-04-24 12:15:42'),
-(35, 6, 35, 'abc', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 14:18:43'),
-(36, 6, 36, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 15:50:03'),
-(37, 6, 37, 'abca', 'def', 'rotanrontan@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 15:55:35'),
-(38, 6, 38, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 15:59:36'),
-(39, 6, 39, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:01:35'),
-(40, 6, 40, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:03:41'),
-(41, 6, 41, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:11:48'),
-(42, 6, 42, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:14:12'),
-(43, 6, 43, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:15:45'),
-(44, 6, 44, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:20:41'),
-(45, 6, 45, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:24:48'),
-(46, 6, 46, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:26:50'),
-(47, 6, 47, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:29:11'),
-(48, 6, 48, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:30:38'),
-(49, 6, 49, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:41:15'),
-(50, 6, 50, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:45:17'),
-(51, 6, 51, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:48:48'),
-(52, 6, 52, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:53:29'),
-(53, 6, 53, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:54:23'),
-(54, 6, 54, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '1213', '2025-04-24 16:56:31'),
-(55, 6, 55, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:57:08'),
-(56, 6, 56, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:58:41'),
-(57, 6, 57, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:59:47'),
-(58, 6, 58, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 16:59:58'),
-(59, 6, 59, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 17:01:47'),
-(60, 6, 60, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 17:03:46'),
-(61, 6, 61, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 17:04:51'),
-(62, 6, 62, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 17:05:37');
+(34, 7, 34, 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '0123456789', 'a-10-11', 'sripetaling', 'kl', '11111', '2025-04-24 12:15:42');
 
 -- --------------------------------------------------------
 
@@ -522,26 +419,22 @@ CREATE TABLE `users` (
   `Email` varchar(255) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `UserType` varchar(255) NOT NULL DEFAULT 'Member',
-  `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `profileimgpath` varchar(255) DEFAULT NULL,
   `is_verified` tinyint(1) NOT NULL DEFAULT 0,
-  `remember_token` varchar(255) DEFAULT NULL,
-  `reset_token` varchar(255) DEFAULT NULL,
-  `reset_token_expires_at` datetime DEFAULT NULL
+  `remember_token` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`UserID`, `username`, `FirstName`, `LastName`, `Email`, `Password`, `UserType`, `is_active`, `profileimgpath`, `is_verified`, `remember_token`, `reset_token`, `reset_token_expires_at`) VALUES
-(1, 'Whrlong', 'abc', 'def', 'rotanrontan@gmail.com', '828881104b89c1d0121c98411a6faa5824cb9a11', 'Admin', 1, NULL, 1, NULL, NULL, NULL),
-(3, 'admin', 'Ad', 'Min', 'lowwaihang@gmail.com', '$2y$10$AAzlCpxD3/5kGbZmCiy...FrMr9JgiGJ1RGUnPY4jrGdZAzQYA4JC', 'Admin', 1, '3_1743423385.gif', 1, NULL, NULL, NULL),
-(4, 'Customer', 'abc', 'def', 'whrlstan05@gmail.com', '$2y$12$3CfI.IZdS/vLnnZMcw89Heenz6ywMPJDGTonfHzs1m8ChbentRM3e', 'Member', 0, NULL, 0, NULL, NULL, NULL),
-(5, 'Customer1', 'hello', 'darkness', 'abc@gmail.com', '$2y$12$elPGvgorpON5QNtItQkX8OgX5PkMx7UwVSORIR78K4KpexMyrfsUK', 'Member', 1, NULL, 0, NULL, NULL, NULL),
-(6, 'Customer2', 'abcad', 'def', 'whrltan05@gmail.com', 'aace80434a29a7abd9aa18a228c632059aa84ccd', 'Member', 1, '6_1745514498.jpg', 1, NULL, '76cf03cae2388d79e78e494904f505c813fa4055ad90d488726dfa4d340706a2', '2025-04-25 00:12:36'),
-(7, 'hang', 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '824ee68a8c81717087d431d66b6efaa8b63147cd', 'Member', 1, '7_1745468877.jpg', 1, NULL, NULL, NULL),
-(9, 'admin1', 'ad', 'minn', 'tanwl-wp23@student.tarc.edu.my', 'c1277ca3863bb1dfa2cba5d3f9e9a60124e49ae2', 'Admin', 1, NULL, 1, NULL, NULL, NULL);
+INSERT INTO `users` (`UserID`, `username`, `FirstName`, `LastName`, `Email`, `Password`, `UserType`, `profileimgpath`, `is_verified`, `remember_token`) VALUES
+(1, 'Whrlong', 'abc', 'def', 'rotanrontan@gmail.com', '828881104b89c1d0121c98411a6faa5824cb9a11', 'Admin', NULL, 1, NULL),
+(3, 'admin', 'Ad', 'Min', 'lowwaihang@gmail.com', '$2y$10$AAzlCpxD3/5kGbZmCiy...FrMr9JgiGJ1RGUnPY4jrGdZAzQYA4JC', 'Admin', '3_1743423385.gif', 1, NULL),
+(4, 'Customer', 'abc', 'def', 'whrlstan05@gmail.com', '$2y$12$seRpZKpFK3AETaImMeIidOAIXoAWC4QaojUrc6xPdCMVSNdZpndWK', 'Member', NULL, 0, NULL),
+(5, 'Customer1', 'hello', 'darkness', 'abc@gmail.com', '$2y$12$elPGvgorpON5QNtItQkX8OgX5PkMx7UwVSORIR78K4KpexMyrfsUK', 'Member', NULL, 0, NULL),
+(6, 'Customer2', 'abc', 'def', 'whrltan05@gmail.com', 'aace80434a29a7abd9aa18a228c632059aa84ccd', 'Member', '6_1743416104.gif', 1, NULL),
+(7, 'hang', 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '824ee68a8c81717087d431d66b6efaa8b63147cd', 'Member', '7_1745468877.jpg', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -569,7 +462,8 @@ INSERT INTO `verification_codes` (`id`, `email`, `code`, `created_at`, `expires_
 (35, 'whrlstan05@gmail.com', '449105', '2025-03-31 08:11:53', '2025-03-31 08:21:53', 'registration'),
 (41, 'lowwaihang@gmail.com', '493577', '2025-04-24 03:43:46', '2025-04-24 03:53:46', 'registration'),
 (43, 'lowwh-wp23@student.tarc.edu.my', '793418', '2025-04-24 04:18:24', '2025-04-24 04:28:24', 'registration'),
-(60, 'tan-wl23@student.tarc.edu.my', '974448', '2025-04-24 14:20:41', '2025-04-24 14:30:41', 'registration');
+(44, 'tanwl-wp23@student.tarc.edu.my', '445022', '2025-04-24 08:26:35', '2025-04-24 08:36:35', 'login'),
+(45, 'tanwl-wp23@student.tarc.edu.my', '116795', '2025-04-24 08:26:39', '2025-04-24 08:36:39', 'login');
 
 --
 -- Indexes for dumped tables
@@ -686,7 +580,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `CartID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `CartID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -698,19 +592,19 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `payment_logs`
 --
 ALTER TABLE `payment_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `productpictures`
@@ -734,13 +628,13 @@ ALTER TABLE `product_stocks`
 -- AUTO_INCREMENT for table `refund_requests`
 --
 ALTER TABLE `refund_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `shipping_addresses`
 --
 ALTER TABLE `shipping_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `temp_users`
@@ -752,13 +646,13 @@ ALTER TABLE `temp_users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `UserID` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `verification_codes`
 --
 ALTER TABLE `verification_codes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- Constraints for dumped tables
