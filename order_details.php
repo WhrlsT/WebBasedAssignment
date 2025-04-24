@@ -88,66 +88,108 @@ include '_head.php';
         <!-- Order Status Tracker -->
         <div class="order-status-tracker">
             <?php
-            $statuses = ['Order Placed', 'Order Paid', 'Order Shipped Out', 'Order Received'];
+            // Define base statuses
+            $statuses = ['Order Placed', 'Order Paid', 'Order Shipped Out', 'Order Received']; // Base statuses
             $currentStatus = $order['status'];
-            $statusIndex = 0;
-            
-            // Determine current status index
-            if ($currentStatus == 'Pending') {
-                $statusIndex = 0;
-            } elseif ($currentStatus == 'Paid') {
-                $statusIndex = 1;
-            } elseif ($currentStatus == 'Shipped') {
-                $statusIndex = 2;
-            } elseif ($currentStatus == 'Delivered') {
-                $statusIndex = 3;
+            $currentStatusLower = strtolower($currentStatus); // Use lowercase for comparisons
+            $statusIndex = 0; // Default index
+            $isRefundFlow = false; // Flag for refund-related statuses
+
+            // Check for specific statuses and adjust labels/index
+            if ($currentStatusLower == 'cancelled') {
+                $statuses[0] = 'Order Cancelled';
+                $statusIndex = 0; // Cancelled is the first (and only active) state visually
+            } elseif ($currentStatusLower == 'refund request') {
+                $statuses[3] = 'Refund Requested'; // Change the last status label
+                $statusIndex = 3; // Mark all steps up to this as active
+                $isRefundFlow = true;
+            } elseif ($currentStatusLower == 'refunded') {
+                $statuses[3] = 'Refunded'; // Change the last status label
+                $statusIndex = 3; // Mark all steps up to this as active
+                $isRefundFlow = true;
+            } else {
+                // Determine current status index for standard flow orders
+                if ($currentStatusLower == 'pending') {
+                    $statusIndex = 0;
+                } elseif ($currentStatusLower == 'paid' || $currentStatusLower == 'processing') {
+                    $statusIndex = 1;
+                } elseif ($currentStatusLower == 'shipped') {
+                    $statusIndex = 2;
+                } elseif ($currentStatusLower == 'delivered') {
+                    $statusIndex = 3;
+                }
+                // Other statuses will show progress up to the last known standard step
             }
             ?>
-            
+
             <div class="status-timeline">
                 <?php foreach ($statuses as $index => $status): ?>
-                    <div class="status-step <?php echo $index <= $statusIndex ? 'active' : ''; ?>">
+                    <?php
+                        // Determine if the step should be active
+                        $isActive = ($currentStatusLower == 'cancelled') ? ($index == 0) : ($index <= $statusIndex);
+                        // Connector is active if the *next* step is active (unless cancelled)
+                        $connectorIsActive = ($currentStatusLower == 'cancelled') ? false : ($index < $statusIndex);
+                    ?>
+                    <div class="status-step <?php echo $isActive ? 'active' : ''; ?>">
                         <div class="status-icon">
-                            <?php if ($index == 0): ?>
+                            <?php
+                            // Icons based on index and status
+                            if ($currentStatusLower == 'cancelled' && $index == 0): ?>
+                                <i class="fas fa-times-circle"></i> <?php // Cancelled icon
+                            elseif ($isRefundFlow && $index == 3): ?>
+                                <i class="fas fa-undo-alt"></i> <?php // Refund icon for last step
+                            elseif ($index == 0): ?>
                                 <i class="fas fa-clipboard-list"></i>
                             <?php elseif ($index == 1): ?>
                                 <i class="fas fa-money-bill-wave"></i>
                             <?php elseif ($index == 2): ?>
                                 <i class="fas fa-truck"></i>
-                            <?php else: ?>
+                            <?php else: // Index 3 (standard 'Order Received') ?>
                                 <i class="fas fa-box-open"></i>
                             <?php endif; ?>
                         </div>
                         <div class="status-label"><?php echo $status; ?></div>
-                        <?php if ($index == 1 && $order['payment_id']): ?>
+                        <?php
+                        // Show amount only for 'Order Paid' step (index 1) if not cancelled or refund flow
+                        if ($index == 1 && isset($order['payment_id']) && $currentStatusLower != 'cancelled'): ?>
                             <div class="status-detail">(RM<?php echo number_format($order['total_amount'], 2); ?>)</div>
                         <?php endif; ?>
-                        <?php if ($index == 0 || $index <= $statusIndex): ?>
+                        <?php
+                        // Show date only for active steps (excluding refund steps for now, unless you add specific dates)
+                        if ($isActive && !($isRefundFlow && $index == 3)): ?>
                             <div class="status-date">
-                                <?php 
-                                if ($index == 0) {
+                                <?php
+                                // Display relevant dates based on index and status
+                                if ($index == 0) { // Order Placed or Order Cancelled date
                                     echo date('d-m-Y H:i', strtotime($order['order_date']));
-                                } elseif ($index == 1 && $order['payment_date']) {
+                                } elseif ($index == 1 && isset($order['payment_date']) && $isActive) { // Payment Date
                                     echo date('d-m-Y H:i', strtotime($order['payment_date']));
-                                } elseif ($index == 2 && $order['status'] == 'Shipped') {
-                                    // Placeholder for shipped date - you might want to add this to your database
-                                    echo date('d-m-Y H:i', strtotime('+1 day', strtotime($order['payment_date'])));
-                                } elseif ($index == 3 && $order['status'] == 'Delivered') {
-                                    // Placeholder for delivery date - you might want to add this to your database
-                                    echo date('d-m-Y H:i', strtotime('+3 days', strtotime($order['payment_date'])));
+                                } elseif ($index == 2 && ($currentStatusLower == 'shipped' || $currentStatusLower == 'delivered' || $isRefundFlow) && $isActive) { // Shipped Date (Placeholder or actual if available)
+                                    // Placeholder logic - replace with actual shipped_date if you add it
+                                    $baseDate = $order['payment_date'] ?? $order['order_date'];
+                                    // You might want to store and display an actual shipped_date here
+                                    echo date('d-m-Y H:i', strtotime('+1 day', strtotime($baseDate))); // Placeholder
+                                } elseif ($index == 3 && $currentStatusLower == 'delivered' && $isActive) { // Delivered Date (Placeholder or actual)
+                                    // Placeholder logic - replace with actual delivered_date if you add it
+                                    $baseDate = $order['payment_date'] ?? $order['order_date'];
+                                    // You might want to store and display an actual delivered_date here
+                                    echo date('d-m-Y H:i', strtotime('+3 days', strtotime($baseDate))); // Placeholder
                                 }
+                                // Note: Dates for 'Refund Requested' or 'Refunded' are not shown here.
+                                // You would need specific columns (e.g., refund_requested_at, refunded_at)
+                                // in your 'orders' or 'refund_requests' table and fetch them to display here.
                                 ?>
                             </div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <?php if ($index < count($statuses) - 1): ?>
-                        <div class="status-connector <?php echo $index < $statusIndex ? 'active' : ''; ?>"></div>
+                        <div class="status-connector <?php echo $connectorIsActive ? 'active' : ''; ?>"></div>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>
         </div>
-        
+
         <div class="order-details-grid">
             <div class="order-info-section">
                 <div class="details-order-card">
@@ -248,6 +290,60 @@ include '_head.php';
             </div>
         </div>
     <?php endif; ?>
+
+    <div class="order-action-buttons">
+        <?php
+            $currentStatusLower = strtolower($order['status']);
+            $canMarkReceived = $currentStatusLower === 'shipped';
+            $canCancel = in_array($currentStatusLower, ['paid', 'processing']);
+            // Allow refund request only if shipped or delivered
+            $canRequestRefund = in_array($currentStatusLower, ['shipped', 'delivered']);
+            // Disable buttons if status is cancelled, refund requested, or refunded
+            $isFinalState = in_array($currentStatusLower, ['cancelled', 'refund request', 'refunded']);
+        ?>
+
+        <!-- Order Received Button -->
+        <form action="mark_received.php" method="POST" style="display: inline;">
+            <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
+            <button type="submit" class="received-action-btn"
+                <?php if (!$canMarkReceived || $isFinalState) echo 'disabled style="opacity: 0.5; cursor: not-allowed;"'; ?>>
+                Order Received
+            </button>
+        </form>
+
+        <!-- Cancel Order / Request Refund Button -->
+        <?php if ($canCancel && !$isFinalState): ?>
+            <form action="cancel_order.php" method="POST" style="display: inline;">
+                <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
+                <button type="submit" class="cancel-action-btn">
+                    Cancel Order
+                </button>
+            </form>
+        <?php elseif ($canRequestRefund && !$isFinalState): ?>
+            <form action="refund.php" method="POST" style="display: inline;">
+                <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
+                <button type="submit" class="refund-action-btn">
+                    Request Refund
+                </button>
+            </form>
+        <?php else: ?>
+            <!-- Show a disabled button or specific status text -->
+            <button type="button" class="refund-action-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
+                <?php
+                    // Show the current status if it's a final state, otherwise default disabled text
+                    if ($isFinalState) {
+                        echo htmlspecialchars(ucwords($order['status'])); // e.g., Refund Request, Refunded, Cancelled
+                    } elseif (!$canCancel && !$canRequestRefund) {
+                         // If neither cancel nor refund is possible for other reasons (e.g., pending)
+                         echo 'Request Refund'; // Or perhaps 'Action Unavailable'
+                    } else {
+                        // Default disabled text if conditions above aren't met (shouldn't usually happen with current logic)
+                        echo 'Request Refund';
+                    }
+                ?>
+            </button>
+        <?php endif; ?>
+    </div>
 </div>
 
 <?php include '_foot.php'; ?>

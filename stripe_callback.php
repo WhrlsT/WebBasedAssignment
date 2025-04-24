@@ -58,8 +58,11 @@ try {
             // Set success message
             $_SESSION['payment_success'] = true;
             
-            // Redirect to order details page
-            header("Location: order_details.php?id=$orderId");
+            // Debug log
+            error_log("Stripe payment successful for order: $orderId");
+            
+            // Redirect to send receipt handler
+            header("Location: sendReceipt.php?order_id=" . $orderId . "&method=stripe");
             exit;
         }
     } else {

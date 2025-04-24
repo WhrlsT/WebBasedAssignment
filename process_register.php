@@ -173,7 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['profile_picture'] = $profilePicture;
             
             // Redirect to profile page
-            header("Location: profile.php?registration=success");
+            header("Location: login.php");
             exit;
         } else {
             header("Location: register.php?error=database_error");

@@ -10,6 +10,7 @@ if (!$loggedIn || !isset($_SESSION['user_type']) || $_SESSION['user_type'] !== '
 
 // Define user types at the beginning of the file
 $userTypes = ['Member', 'Admin'];
+$userStatuses = [1 => 'Active', 0 => 'Inactive']; // Define statuses
 
 // Handle actions
 $action = $_GET['action'] ?? '';
@@ -25,7 +26,7 @@ switch ($action) {
             $lastName = $_POST['last_name'] ?? '';
             $password = $_POST['password'] ?? '';
             $userType = $_POST['user_type'] ?? 'Member';
-            
+
             // Check if email already exists
             $checkStmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE Email = ?");
             $checkStmt->execute([$email]);
@@ -33,9 +34,9 @@ switch ($action) {
                 echo json_encode(['error' => 'Email address already in use']);
                 exit;
             }
-            
+
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            
+
             try {
                 $stmt = $pdo->prepare("INSERT INTO users (username, Email, FirstName, LastName, Password, UserType) VALUES (?, ?, ?, ?, ?, ?)");
                 $stmt->execute([$username, $email, $firstName, $lastName, $hashedPassword, $userType]);
@@ -47,42 +48,42 @@ switch ($action) {
                 exit;
             }
         }
-        
+
         // Modify the add form to include first and last name fields
         ob_start();
         ?>
         <h2>Add New User</h2>
-        
+
         <?php if (isset($_SESSION['error'])): ?>
             <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
         <?php endif; ?>
-        
+
         <form method="post" action="users.php?action=add">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user['username'] ?? ''); ?>" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="first_name">First Name</label>
                 <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($user['FirstName'] ?? ''); ?>">
             </div>
-            
+
             <div class="form-group">
                 <label for="last_name">Last Name</label>
                 <input type="text" id="last_name" name="last_name" value="<?php echo htmlspecialchars($user['LastName'] ?? ''); ?>">
             </div>
-            
+
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['Email'] ?? ''); ?>" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="user_type">User Type</label>
                 <select id="user_type" name="user_type" required>
@@ -93,7 +94,7 @@ switch ($action) {
                     <?php endforeach; ?>
                 </select>
             </div>
-            
+
             <div class="form-actions">
                 <button type="submit" class="admin-btn">Save</button>
                 <button type="button" class="admin-btn secondary cancel-modal">Cancel</button>
@@ -111,7 +112,7 @@ switch ($action) {
             $lastName = $_POST['last_name'] ?? '';
             $userType = $_POST['user_type'] ?? 'Member';
             $password = $_POST['password'] ?? '';
-            
+
             // Check if email already exists for another user
             $checkStmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE Email = ? AND UserID != ?");
             $checkStmt->execute([$email, $userId]);
@@ -119,7 +120,7 @@ switch ($action) {
                 echo json_encode(['error' => 'Email address already in use by another user']);
                 exit;
             }
-            
+
             try {
                 if (!empty($password)) {
                     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -137,7 +138,7 @@ switch ($action) {
                 exit;
             }
         }
-        
+
         // Modify the edit form to include first and last name fields
         $user = [];
         if ($userId) {
@@ -145,41 +146,40 @@ switch ($action) {
             $stmt->execute([$userId]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
         }
-        
+
         ob_start();
         ?>
         <h2>Edit User</h2>
-        
+
         <?php if (isset($_SESSION['error'])): ?>
             <div class="alert alert-danger"><?php echo $_SESSION['error']; unset($_SESSION['error']); ?></div>
         <?php endif; ?>
-        
         <form method="post" action="users.php?action=edit&id=<?php echo $userId; ?>">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user['username'] ?? ''); ?>" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="first_name">First Name</label>
                 <input type="text" id="first_name" name="first_name" value="<?php echo htmlspecialchars($user['FirstName'] ?? ''); ?>">
             </div>
-            
+
             <div class="form-group">
                 <label for="last_name">Last Name</label>
                 <input type="text" id="last_name" name="last_name" value="<?php echo htmlspecialchars($user['LastName'] ?? ''); ?>">
             </div>
-            
+
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['Email'] ?? ''); ?>" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="password">New Password (leave blank to keep current)</label>
                 <input type="password" id="password" name="password">
             </div>
-            
+
             <div class="form-group">
                 <label for="user_type">User Type</label>
                 <select id="user_type" name="user_type" required>
@@ -190,7 +190,7 @@ switch ($action) {
                     <?php endforeach; ?>
                 </select>
             </div>
-            
+
             <div class="form-actions">
                 <button type="submit" class="admin-btn">Save</button>
                 <button type="button" class="admin-btn secondary cancel-modal">Cancel</button>
@@ -200,17 +200,36 @@ switch ($action) {
         echo ob_get_clean();
         exit;
 
-    case 'delete':
-        try {
-            $stmt = $pdo->prepare("DELETE FROM users WHERE UserID = ?");
-            $stmt->execute([$userId]);
-            $_SESSION['message'] = 'User deleted successfully';
-        } catch (PDOException $e) {
-            $_SESSION['error'] = 'Error deleting user: ' . $e->getMessage();
+    case 'deactivate': // Changed from 'delete'
+        if ($userId && $userId != ($_SESSION['user_id'] ?? 0)) { // Prevent self-deactivation
+            try {
+                $stmt = $pdo->prepare("UPDATE users SET is_active = 0 WHERE UserID = ?");
+                $stmt->execute([$userId]);
+                $_SESSION['message'] = 'User deactivated successfully';
+            } catch (PDOException $e) {
+                $_SESSION['error'] = 'Error deactivating user: ' . $e->getMessage();
+            }
+        } else {
+            $_SESSION['error'] = 'Invalid request or cannot deactivate self.';
         }
-        header('Location: users.php');
+        header('Location: users.php'); // Redirect back to user list
         exit;
-        
+
+    case 'activate':
+        if ($userId) {
+            try {
+                $stmt = $pdo->prepare("UPDATE users SET is_active = 1 WHERE UserID = ?");
+                $stmt->execute([$userId]);
+                $_SESSION['message'] = 'User activated successfully';
+            } catch (PDOException $e) {
+                $_SESSION['error'] = 'Error activating user: ' . $e->getMessage();
+            }
+        } else {
+             $_SESSION['error'] = 'Invalid request.';
+        }
+        header('Location: users.php'); // Redirect back to user list
+        exit;
+
     default:
         break;
 }
@@ -220,9 +239,7 @@ $userType = $_GET['user_type'] ?? '';
 $search = $_GET['search'] ?? '';
 $page = (int)($_GET['page'] ?? 1);
 $sort = $_GET['sort'] ?? 'id_desc';
-$userTypes = ['Member', 'Admin'];
-
-
+$statusFilter = isset($_GET['status']) && $_GET['status'] !== '' ? (int)$_GET['status'] : null; // Status filter
 
 $_title = 'Admin - User Management';
 include '../_head.php';
@@ -232,7 +249,7 @@ include '../_head.php';
     <div class="admin-sidebar">
         <?php include 'sidebar.php'; ?>
     </div>
-    
+
     <div class="admin-content">
         <div class="admin-header">
             <h1>User Management</h1>
@@ -242,7 +259,8 @@ include '../_head.php';
                 </a>
             </div>
         </div>
-        
+
+        <!-- Add Status Filter -->
         <div class="admin-filters">
             <form method="get" action="users.php" class="search-form">
                 <div class="search-group">
@@ -251,19 +269,29 @@ include '../_head.php';
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
-                
+
                 <div class="filter-group">
                     <label for="user_type">User Type:</label>
                     <select name="user_type" id="user_type" onchange="this.form.submit()">
                         <option value="">All Types</option>
-                        <?php foreach (['Member', 'Admin'] as $type): ?>
+                        <?php foreach ($userTypes as $type): ?>
                             <option value="<?php echo htmlspecialchars($type); ?>" <?php echo $userType === $type ? 'selected' : ''; ?>>
                                 <?php echo htmlspecialchars($type); ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
-                
+
+                <!-- Status Filter Dropdown -->
+                <div class="filter-group">
+                    <label for="status">Status:</label>
+                    <select name="status" id="status" onchange="this.form.submit()">
+                        <option value="">All Statuses</option>
+                        <option value="1" <?php echo $statusFilter === 1 ? 'selected' : ''; ?>>Active</option>
+                        <option value="0" <?php echo $statusFilter === 0 ? 'selected' : ''; ?>>Inactive</option>
+                    </select>
+                </div>
+
                 <div class="sort-group">
                     <label for="sort">Sort by:</label>
                     <select name="sort" id="sort" onchange="this.form.submit()">
@@ -271,35 +299,41 @@ include '../_head.php';
                         <option value="id_asc" <?php echo $sort === 'id_asc' ? 'selected' : ''; ?>>Oldest First</option>
                         <option value="name_asc" <?php echo $sort === 'name_asc' ? 'selected' : ''; ?>>Name (A-Z)</option>
                         <option value="name_desc" <?php echo $sort === 'name_desc' ? 'selected' : ''; ?>>Name (Z-A)</option>
+                        <option value="status_asc" <?php echo $sort === 'status_asc' ? 'selected' : ''; ?>>Status (Active First)</option>
+                        <option value="status_desc" <?php echo $sort === 'status_desc' ? 'selected' : ''; ?>>Status (Inactive First)</option>
                     </select>
                 </div>
             </form>
         </div>
-        
+
         <?php
         // Build query
         $query = "SELECT * FROM users";
-        
+
         $conditions = [];
         $params = [];
-        
+
         if (!empty($userType)) {
             $conditions[] = "UserType = ?";
             $params[] = $userType;
         }
-        
+
+        // Add status filter condition
+        if ($statusFilter !== null) {
+            $conditions[] = "is_active = ?";
+            $params[] = $statusFilter;
+        }
+
         if (!empty($search)) {
             $conditions[] = "(FirstName LIKE ? OR LastName LIKE ? OR Email LIKE ? OR Username LIKE ?)";
-            $params[] = "%$search%";
-            $params[] = "%$search%";
-            $params[] = "%$search%";
-            $params[] = "%$search%";
+            $searchParam = "%$search%";
+            $params = array_merge($params, [$searchParam, $searchParam, $searchParam, $searchParam]);
         }
-        
+
         if (!empty($conditions)) {
             $query .= " WHERE " . implode(' AND ', $conditions);
         }
-        
+
         // Add sorting
         switch ($sort) {
             case 'id_asc':
@@ -311,18 +345,25 @@ include '../_head.php';
             case 'name_desc':
                 $query .= " ORDER BY FirstName DESC, LastName DESC";
                 break;
-            default:
+            case 'status_asc': // Sort by status
+                 $query .= " ORDER BY is_active DESC, UserID DESC"; // Active first
+                 break;
+            case 'status_desc': // Sort by status
+                 $query .= " ORDER BY is_active ASC, UserID DESC"; // Inactive first
+                 break;
+            default: // id_desc
                 $query .= " ORDER BY UserID DESC";
         }
-        
+
         // Use SimplePager for pagination
-        $_db = $pdo;
+        $_db = $pdo; // SimplePager might expect $_db
         $pager = new SimplePager($query, $params, 10, $page);
         $users = $pager->result;
         $totalUsers = $pager->item_count;
         $totalPages = $pager->page_count;
         ?>
-        
+
+        <!-- Add Status Column and Update Actions Column -->
         <table class="admin-table">
             <thead>
                 <tr>
@@ -331,6 +372,7 @@ include '../_head.php';
                     <th>Name</th>
                     <th>Email</th>
                     <th>User Type</th>
+                    <th>Status</th> <!-- New Column -->
                     <th>Registered</th>
                     <th>Actions</th>
                 </tr>
@@ -338,7 +380,7 @@ include '../_head.php';
             <tbody>
                 <?php if (empty($users)): ?>
                     <tr>
-                        <td colspan="7" class="no-records">No users found</td>
+                        <td colspan="8" class="no-records">No users found</td> <!-- Updated colspan -->
                     </tr>
                 <?php else: ?>
                     <?php foreach ($users as $user): ?>
@@ -348,11 +390,20 @@ include '../_head.php';
                             <td><?php echo htmlspecialchars(($user['FirstName'] ?? '') . ' ' . ($user['LastName'] ?? '')); ?></td>
                             <td><?php echo htmlspecialchars($user['Email'] ?? ''); ?></td>
                             <td><?php echo htmlspecialchars($user['UserType'] ?? ''); ?></td>
+                            <td> <!-- Status Display -->
+                                <span class="status-badge <?php echo ($user['is_active'] ?? 0) ? 'status-active' : 'status-inactive'; ?>">
+                                    <?php echo ($user['is_active'] ?? 0) ? 'Active' : 'Inactive'; ?>
+                                </span>
+                            </td>
                             <td><?php echo date('M d, Y', strtotime($user['RegisterDate'] ?? 'now')); ?></td>
                             <td class="actions">
                                 <a href="#" class="action-btn edit" data-userid="<?php echo $user['UserID'] ?? ''; ?>">Edit</a>
-                                <?php if (($user['UserID'] ?? 0) != ($_SESSION['user_id'] ?? 0)): ?>
-                                    <a href="javascript:void(0);" onclick="confirmDelete(<?php echo $user['UserID'] ?? ''; ?>)" class="action-btn delete">Delete</a>
+                                <?php if (($user['UserID'] ?? 0) != ($_SESSION['user_id'] ?? 0)): // Prevent actions on self ?>
+                                    <?php if ($user['is_active'] ?? 0): ?>
+                                        <a href="javascript:void(0);" onclick="confirmAction(<?php echo $user['UserID'] ?? ''; ?>, 'deactivate', 'Are you sure you want to deactivate this user? They will not be able to log in.')" class="action-btn deactivate">Deactivate</a>
+                                    <?php else: ?>
+                                        <a href="javascript:void(0);" onclick="confirmAction(<?php echo $user['UserID'] ?? ''; ?>, 'activate', 'Are you sure you want to activate this user? They will be able to log in again.')" class="action-btn activate">Activate</a>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -360,23 +411,32 @@ include '../_head.php';
                 <?php endif; ?>
             </tbody>
         </table>
-        
+
         <?php if ($totalPages > 1): ?>
             <div class="pagination">
+                <?php
+                    // Build base URL for pagination links, preserving filters
+                    $queryParams = http_build_query([
+                        'user_type' => $userType,
+                        'search' => $search,
+                        'sort' => $sort,
+                        'status' => $statusFilter
+                    ]);
+                ?>
                 <?php if ($page > 1): ?>
-                    <a href="?page=<?php echo ($page - 1); ?>&user_type=<?php echo urlencode($userType); ?>&search=<?php echo urlencode($search); ?>&sort=<?php echo $sort; ?>" class="page-link">&laquo; Previous</a>
+                    <a href="?page=<?php echo ($page - 1); ?>&<?php echo $queryParams; ?>" class="page-link">&laquo; Previous</a>
                 <?php endif; ?>
-                
+
                 <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                    <a href="?page=<?php echo $i; ?>&user_type=<?php echo urlencode($userType); ?>&search=<?php echo urlencode($search); ?>&sort=<?php echo $sort; ?>" class="page-link <?php echo $i === $page ? 'active' : ''; ?>"><?php echo $i; ?></a>
+                    <a href="?page=<?php echo $i; ?>&<?php echo $queryParams; ?>" class="page-link <?php echo $i === $page ? 'active' : ''; ?>"><?php echo $i; ?></a>
                 <?php endfor; ?>
-                
+
                 <?php if ($page < $totalPages): ?>
-                    <a href="?page=<?php echo ($page + 1); ?>&user_type=<?php echo urlencode($userType); ?>&search=<?php echo urlencode($search); ?>&sort=<?php echo $sort; ?>" class="page-link">Next &raquo;</a>
+                    <a href="?page=<?php echo ($page + 1); ?>&<?php echo $queryParams; ?>" class="page-link">Next &raquo;</a>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
-        
+
         <!-- Modal -->
         <div id="userModal" class="modal">
             <div class="modal-content">
@@ -384,19 +444,21 @@ include '../_head.php';
                 <div id="modalFormContent"></div>
             </div>
         </div>
-        
+
+        <!-- Update JavaScript Confirmation Function -->
         <script>
-            function confirmDelete(userId) {
-                if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
-                    window.location.href = 'users.php?action=delete&id=' + userId;
+            // Renamed from confirmDelete to confirmAction
+            function confirmAction(userId, actionType, message) {
+                if (confirm(message)) {
+                    window.location.href = `users.php?action=${actionType}&id=${userId}`;
                 }
             }
-            
+
             document.addEventListener('DOMContentLoaded', function() {
                 const modal = document.getElementById('userModal');
                 const modalContent = document.getElementById('modalFormContent');
                 const closeBtn = document.querySelector('.close-modal');
-                
+
                 // Add User button
                 document.getElementById('addUserBtn').addEventListener('click', function(e) {
                     e.preventDefault();
@@ -404,10 +466,13 @@ include '../_head.php';
                         .then(response => response.text())
                         .then(html => {
                             modalContent.innerHTML = html;
+                            // Initialize form handling for the new content if needed
+                            initializeModalForm(modalContent.querySelector('form'));
                             modal.style.display = 'block';
-                        });
+                        })
+                        .catch(error => console.error('Error fetching add form:', error));
                 });
-                
+
                 // Edit buttons
                 document.querySelectorAll('.action-btn.edit').forEach(btn => {
                     btn.addEventListener('click', function(e) {
@@ -417,37 +482,44 @@ include '../_head.php';
                             .then(response => response.text())
                             .then(html => {
                                 modalContent.innerHTML = html;
+                                // Initialize form handling for the new content
+                                initializeModalForm(modalContent.querySelector('form'));
                                 modal.style.display = 'block';
-                            });
+                            })
+                            .catch(error => console.error('Error fetching edit form:', error));
                     });
                 });
-                
+
                 // Close modal
                 closeBtn.addEventListener('click', function() {
                     modal.style.display = 'none';
+                    modalContent.innerHTML = ''; // Clear content
                 });
-                
+
                 // Close when clicking outside modal
                 window.addEventListener('click', function(e) {
                     if (e.target === modal) {
                         modal.style.display = 'none';
+                        modalContent.innerHTML = ''; // Clear content
                     }
                 });
-                
-                // Handle cancel button
-                document.addEventListener('click', function(e) {
+
+                // Handle cancel button inside modal
+                // Use event delegation on modal content area
+                modalContent.addEventListener('click', function(e) {
                     if (e.target.classList.contains('cancel-modal')) {
                         modal.style.display = 'none';
+                        modalContent.innerHTML = ''; // Clear content
                     }
                 });
-                
-                // Handle form submission
-                document.addEventListener('submit', function(e) {
-                    if (e.target.closest('form')) {
+
+                // Function to handle form submission via Fetch API
+                function initializeModalForm(form) {
+                    if (!form) return;
+                    form.addEventListener('submit', function(e) {
                         e.preventDefault();
-                        const form = e.target;
                         const formData = new FormData(form);
-                        
+
                         fetch(form.action, {
                             method: 'POST',
                             body: formData
@@ -455,15 +527,57 @@ include '../_head.php';
                         .then(response => response.json())
                         .then(data => {
                             if (data.error) {
-                                alert(data.error);
+                                // Display error more gracefully if possible
+                                alert('Error: ' + data.error);
+                            } else if (data.success) {
+                                modal.style.display = 'none';
+                                window.location.reload(); // Reload page to see changes
                             } else {
-                                window.location.reload();
+                                alert('An unknown error occurred.');
                             }
+                        })
+                        .catch(error => {
+                            console.error('Form submission error:', error);
+                            alert('An error occurred while submitting the form.');
                         });
-                    }
-                });
+                    });
+                }
+
+                // Note: The global submit listener is removed to avoid conflicts
+                // with the dynamically added forms. Instead, we initialize
+                // the listener when the form content is loaded into the modal.
+
             });
         </script>
+        <!-- Add some basic CSS for status badges (you can customize this) -->
+        <style>
+            .status-badge {
+                padding: 3px 8px;
+                border-radius: 12px;
+                font-size: 0.8em;
+                font-weight: bold;
+                color: white;
+                text-transform: uppercase;
+            }
+            .status-active {
+                background-color: #28a745; /* Green */
+            }
+            .status-inactive {
+                background-color: #dc3545; /* Red */
+            }
+            .action-btn.deactivate {
+                color: #dc3545;
+            }
+            .action-btn.activate {
+                 color: #28a745;
+            }
+             .action-btn.deactivate:hover {
+                text-decoration: underline;
+            }
+             .action-btn.activate:hover {
+                 text-decoration: underline;
+            }
+        </style>
     </div>
 </div>
 

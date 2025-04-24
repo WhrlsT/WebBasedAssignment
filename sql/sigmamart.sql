@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2025 at 07:55 PM
+-- Generation Time: Apr 24, 2025 at 04:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -117,7 +117,12 @@ CREATE TABLE `orders` (
 INSERT INTO `orders` (`id`, `user_id`, `order_reference`, `total_amount`, `shipping_cost`, `status`, `payment_id`, `payment_date`, `payment_session_id`, `order_date`, `payment_method`, `tracking_number`, `admin_notes`) VALUES
 (27, 6, 'ORD-1E59B405', 99999999.99, 10.00, 'Paid', NULL, NULL, NULL, '2025-04-01 00:38:27', 'paypal', '', ''),
 (28, 6, 'ORD-F6E03860', 559.00, 10.00, 'Paid', 'pi_3R8lOlPZSuoPG7KD3U8JQAXX', '2025-04-01 00:41:28', NULL, '2025-04-01 00:40:45', 'stripe', NULL, NULL),
-(29, 6, 'ORD-0D0F7256', 81.00, 10.00, 'Paid', 'PP_1743439352_29', '2025-04-01 00:42:32', NULL, '2025-04-01 00:42:18', 'paypal', NULL, NULL);
+(29, 6, 'ORD-0D0F7256', 81.00, 10.00, 'Paid', 'PP_1743439352_29', '2025-04-01 00:42:32', NULL, '2025-04-01 00:42:18', 'paypal', NULL, NULL),
+(30, 7, 'ORD-7D9B582C', 223.00, 10.00, 'Pending', NULL, NULL, NULL, '2025-04-24 12:37:05', 'stripe', NULL, NULL),
+(31, 7, 'ORD-EF153FCD', 129.00, 10.00, 'Pending', NULL, NULL, NULL, '2025-04-24 12:39:08', 'paypal', NULL, NULL),
+(32, 7, 'ORD-2B30F26E', 99999999.99, 10.00, 'Pending', NULL, NULL, NULL, '2025-04-24 12:40:19', 'stripe', NULL, NULL),
+(33, 7, 'ORD-B9AC2780', 81.00, 10.00, 'refund_requested', 'pi_3RHHcvRtqjLfe2On168fI6RW', '2025-04-24 12:44:39', NULL, '2025-04-24 12:43:08', 'stripe', '', ''),
+(34, 7, 'ORD-1FC64261', 81.00, 10.00, 'Paid', 'pi_3RHOguRtqjLfe2On17YpwXye', '2025-04-24 20:16:08', NULL, '2025-04-24 20:15:42', 'stripe', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -146,7 +151,12 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`) 
 (42, 28, 33, 1, 180.00),
 (43, 28, 35, 1, 200.00),
 (44, 28, 40, 1, 119.00),
-(45, 29, 41, 1, 71.00);
+(45, 29, 41, 1, 71.00),
+(46, 30, 41, 3, 71.00),
+(47, 31, 40, 1, 119.00),
+(48, 32, 39, 1, 99999999.99),
+(49, 33, 41, 1, 71.00),
+(50, 34, 41, 1, 71.00);
 
 -- --------------------------------------------------------
 
@@ -178,7 +188,9 @@ INSERT INTO `payment_logs` (`id`, `txn_id`, `order_reference`, `payment_amount`,
 (5, 'pi_3R8ehgPZSuoPG7KD1WR7fsBT', 'ORD-562E6B6E', 121222.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3R8ehgPZSuoPG7KD1WR7fsBT\",\"status\":\"succeeded\"}', '2025-03-31 09:32:34'),
 (6, 'PP_1743413688_26', 'ORD-2EA20EF9', 1354587.00, 'MYR', 'whrltan05@gmail.com', 'Completed', '{\"order_id\":26,\"payment_method\":\"paypal\",\"success_page\":true}', '2025-03-31 09:34:48'),
 (7, 'pi_3R8lOlPZSuoPG7KD3U8JQAXX', 'ORD-F6E03860', 559.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3R8lOlPZSuoPG7KD3U8JQAXX\",\"status\":\"succeeded\"}', '2025-03-31 16:41:28'),
-(8, 'PP_1743439352_29', 'ORD-0D0F7256', 81.00, 'MYR', 'whrltan05@gmail.com', 'Completed', '{\"order_id\":29,\"payment_method\":\"paypal\",\"success_page\":true}', '2025-03-31 16:42:32');
+(8, 'PP_1743439352_29', 'ORD-0D0F7256', 81.00, 'MYR', 'whrltan05@gmail.com', 'Completed', '{\"order_id\":29,\"payment_method\":\"paypal\",\"success_page\":true}', '2025-03-31 16:42:32'),
+(9, 'pi_3RHHcvRtqjLfe2On168fI6RW', 'ORD-B9AC2780', 81.00, 'myr', 'lowwh-wp23@student.tarc.edu.my', 'succeeded', '{\"payment_intent\":\"pi_3RHHcvRtqjLfe2On168fI6RW\",\"status\":\"succeeded\"}', '2025-04-24 04:44:39'),
+(10, 'pi_3RHOguRtqjLfe2On17YpwXye', 'ORD-1FC64261', 81.00, 'myr', 'lowwh-wp23@student.tarc.edu.my', 'succeeded', '{\"payment_intent\":\"pi_3RHOguRtqjLfe2On17YpwXye\",\"status\":\"succeeded\"}', '2025-04-24 12:16:08');
 
 -- --------------------------------------------------------
 
@@ -283,9 +295,9 @@ INSERT INTO `products` (`ProductID`, `CategoryID`, `BrandID`, `ProductName`, `Pr
 (36, 1002, 1005, 'Baymax Sakura Medium Plush, Big Hero 6', 145, 'Our super soft, velvety Baymax Sakura Plush comes from San Fransokyo exclusively via Disney Store Japan. Plump and reassuring, this huggable, all-too-adorable stuffed toy is decorated with cherry blossom appliqués and pastel accents.\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nVelvety velour covering\r\nSoft fill\r\nCherry blossom appliqués\r\nGlitter accents\r\nSoft ice cream cone with shimmering fabric scoops\r\nInspired by Disney\'s Big Hero 6 (2014)\r\nPart of the Sakura 2025 Collection\r\nCreated for Disney Store Japan\r\nThe bare necessities\r\n\r\nPolyester fiber / polyethylene foam\r\nApprox. 34.3cm H\r\nImported', '2025-03-31 20:25:36', 1),
 (37, 1002, 1005, 'Rex Medium Plush, Toy Story Rex Game', 120, 'It’s game time with the Rex Medium Plush from the Rex Game collection! Join your favourite Toy Story characters for a fun-filled party full of laughter and excitement. With its soft plush texture and vibrant colours, this plush is guaranteed to brighten your day.\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nPart of the Rex Game Collection\r\nCreated for Disney Store\r\nThe bare necessities\r\n\r\nPolyester\r\nApprox. 28.5cm H x 27cm L x 35cm W\r\nImported', '2025-03-31 20:26:26', 0),
 (38, 1002, 1005, 'Dale Sitting Plush, Chip \'n Dale', 120, 'Bring home the magic from Disney Store Japan with this Dale Sitting Plush. With an adorable head-tilt and sparkling eyes, Dale radiates charm in a gentle pastel hue. Soft, fluffy, and irresistibly cuddly—perfect for bringing comfort and joy!\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nPart of the Petanko Collection\r\nCreated for Disney Store Japan\r\nThe bare necessities\r\n\r\nPolyester\r\nApprox. 21cm H x 15cm W x 16cm D\r\nImported', '2025-03-31 20:27:24', 0),
-(39, 1002, 1005, 'President Xinnie the Pooh', 2147483647, 'Bring home the magic from Disney Store Japan with this Xinnie the Pooh. With an adorable head-tilt and sparkling eyes, Pooh radiates charm in a gentle pastel hue. Soft, fluffy, and irresistibly cuddly—perfect for bringing comfort and joy!\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nInspired by Disney\'s The Many Adventures of Winnie the Pooh (1977)\r\nPart of the Petanko Collection\r\nCreated for Disney Store Japan\r\nThe bare necessities\r\n\r\nPolyester\r\nApprox. 33cm H x 22cm W x 22cm D\r\nImported', '2025-03-31 20:29:17', 1),
-(40, 1001, 1003, 'Labubu The Monsters Coca-Cola Series Vinyl Face', 119, 'Brand: POP MART\r\nSize: Height about 15.5cm-17cm\r\nMaterial: Shell: Polyester/ABS/PVC; Stuffing: Polyester/Iron Wire', '2025-03-31 20:38:19', 8),
-(41, 1001, 1003, 'The Monsters - Have a seat Vinyl Plush', 71, 'Brand: POP MART\r\nSize: \r\nHeight about 8*7*20cm(including hanging loop)\r\nHeight about 8*7*15cm(excluding hanging loop)\r\nMaterial: \r\nShell: 60%PVC, 40%Polyester\r\nStuffing: 70%Polyester, 20%ABS, 5%Iron Wire, 5%Nylon', '2025-03-31 20:40:03', 1);
+(39, 1002, 1005, 'President Xinnie the Pooh', 2147483647, 'Bring home the magic from Disney Store Japan with this Xinnie the Pooh. With an adorable head-tilt and sparkling eyes, Pooh radiates charm in a gentle pastel hue. Soft, fluffy, and irresistibly cuddly—perfect for bringing comfort and joy!\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nInspired by Disney\'s The Many Adventures of Winnie the Pooh (1977)\r\nPart of the Petanko Collection\r\nCreated for Disney Store Japan\r\nThe bare necessities\r\n\r\nPolyester\r\nApprox. 33cm H x 22cm W x 22cm D\r\nImported', '2025-03-31 20:29:17', 2),
+(40, 1001, 1003, 'Labubu The Monsters Coca-Cola Series Vinyl Face', 119, 'Brand: POP MART\r\nSize: Height about 15.5cm-17cm\r\nMaterial: Shell: Polyester/ABS/PVC; Stuffing: Polyester/Iron Wire', '2025-03-31 20:38:19', 9),
+(41, 1001, 1003, 'The Monsters - Have a seat Vinyl Plush', 71, 'Brand: POP MART\r\nSize: \r\nHeight about 8*7*20cm(including hanging loop)\r\nHeight about 8*7*15cm(excluding hanging loop)\r\nMaterial: \r\nShell: 60%PVC, 40%Polyester\r\nStuffing: 70%Polyester, 20%ABS, 5%Iron Wire, 5%Nylon', '2025-03-31 20:40:03', 8);
 
 -- --------------------------------------------------------
 
@@ -323,6 +335,31 @@ INSERT INTO `product_stocks` (`StockID`, `ProductID`, `Quantity`, `LastUpdated`)
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `refund_requests`
+--
+
+CREATE TABLE `refund_requests` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `reason` varchar(50) NOT NULL,
+  `details` text DEFAULT NULL,
+  `status` enum('pending','approved','rejected','processed') DEFAULT 'pending',
+  `requested_at` datetime NOT NULL,
+  `processed_at` datetime DEFAULT NULL,
+  `admin_notes` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `refund_requests`
+--
+
+INSERT INTO `refund_requests` (`id`, `order_id`, `user_id`, `reason`, `details`, `status`, `requested_at`, `processed_at`, `admin_notes`) VALUES
+(1, 33, 7, 'changed_mind', '', 'pending', '2025-04-24 20:07:11', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `shipping_addresses`
 --
 
@@ -348,7 +385,12 @@ CREATE TABLE `shipping_addresses` (
 INSERT INTO `shipping_addresses` (`id`, `user_id`, `order_id`, `first_name`, `last_name`, `email`, `phone`, `address`, `city`, `state`, `zip_code`, `created_at`) VALUES
 (27, 6, 27, 'Kelvin', 'Singh', 'whrltan05@gmail.com', '0137383232', '30 Jalan Gita 1/6, Horizon Hills, 79100 Iskandar Puteri, Johor', 'Nusajaya', 'Johor', '79100', '2025-03-31 16:38:27'),
 (28, 6, 28, 'Kelvin', 'Singh', 'whrltan05@gmail.com', '123123123213123', '12313213', '123123', '3123', '213213', '2025-03-31 16:40:45'),
-(29, 6, 29, 'abc', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-03-31 16:42:18');
+(29, 6, 29, 'abc', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-03-31 16:42:18'),
+(30, 7, 30, 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '0123456789', 'a-10-11', 'sripetaling', 'kl', '11111', '2025-04-24 04:37:05'),
+(31, 7, 31, 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '0123456789', 'a-10-11', 'sripetaling', 'kl', '11111', '2025-04-24 04:39:08'),
+(32, 7, 32, 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '0123456789', 'a-10-11', 'sripetaling', 'kl', '11111', '2025-04-24 04:40:19'),
+(33, 7, 33, 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '0123456789', 'a-10-11', 'sripetaling', 'kl', '11111', '2025-04-24 04:43:08'),
+(34, 7, 34, 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '0123456789', 'a-10-11', 'sripetaling', 'kl', '11111', '2025-04-24 12:15:42');
 
 -- --------------------------------------------------------
 
@@ -388,10 +430,11 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`UserID`, `username`, `FirstName`, `LastName`, `Email`, `Password`, `UserType`, `profileimgpath`, `is_verified`, `remember_token`) VALUES
 (1, 'Whrlong', 'abc', 'def', 'rotanrontan@gmail.com', '828881104b89c1d0121c98411a6faa5824cb9a11', 'Admin', NULL, 1, NULL),
-(3, 'admin', 'Ad', 'Min', 'tanwl-wp23@student.tarc.edu.my', '6c7ca345f63f835cb353ff15bd6c5e052ec08e7a', 'Admin', '3_1743423385.gif', 1, NULL),
+(3, 'admin', 'Ad', 'Min', 'lowwaihang@gmail.com', '$2y$10$AAzlCpxD3/5kGbZmCiy...FrMr9JgiGJ1RGUnPY4jrGdZAzQYA4JC', 'Admin', '3_1743423385.gif', 1, NULL),
 (4, 'Customer', 'abc', 'def', 'whrlstan05@gmail.com', '$2y$12$seRpZKpFK3AETaImMeIidOAIXoAWC4QaojUrc6xPdCMVSNdZpndWK', 'Member', NULL, 0, NULL),
 (5, 'Customer1', 'hello', 'darkness', 'abc@gmail.com', '$2y$12$elPGvgorpON5QNtItQkX8OgX5PkMx7UwVSORIR78K4KpexMyrfsUK', 'Member', NULL, 0, NULL),
-(6, 'Customer2', 'abc', 'def', 'whrltan05@gmail.com', 'aace80434a29a7abd9aa18a228c632059aa84ccd', 'Member', '6_1743416104.gif', 1, NULL);
+(6, 'Customer2', 'abc', 'def', 'whrltan05@gmail.com', 'aace80434a29a7abd9aa18a228c632059aa84ccd', 'Member', '6_1743416104.gif', 1, NULL),
+(7, 'hang', 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '824ee68a8c81717087d431d66b6efaa8b63147cd', 'Member', '7_1745468877.jpg', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -416,7 +459,11 @@ INSERT INTO `verification_codes` (`id`, `email`, `code`, `created_at`, `expires_
 (15, 'rotanrontan@gmail.com', '179647', '2025-03-29 16:36:04', '2025-03-29 16:46:04', 'registration'),
 (18, 'whrlstan05@gmail.com', '114995', '2025-03-29 16:46:45', '2025-03-29 16:56:45', ''),
 (22, 'niga@gmail.com', '093412', '2025-03-29 18:46:32', '2025-03-29 18:56:32', 'registration'),
-(35, 'whrlstan05@gmail.com', '449105', '2025-03-31 08:11:53', '2025-03-31 08:21:53', 'registration');
+(35, 'whrlstan05@gmail.com', '449105', '2025-03-31 08:11:53', '2025-03-31 08:21:53', 'registration'),
+(41, 'lowwaihang@gmail.com', '493577', '2025-04-24 03:43:46', '2025-04-24 03:53:46', 'registration'),
+(43, 'lowwh-wp23@student.tarc.edu.my', '793418', '2025-04-24 04:18:24', '2025-04-24 04:28:24', 'registration'),
+(44, 'tanwl-wp23@student.tarc.edu.my', '445022', '2025-04-24 08:26:35', '2025-04-24 08:36:35', 'login'),
+(45, 'tanwl-wp23@student.tarc.edu.my', '116795', '2025-04-24 08:26:39', '2025-04-24 08:36:39', 'login');
 
 --
 -- Indexes for dumped tables
@@ -485,6 +532,14 @@ ALTER TABLE `product_stocks`
   ADD KEY `ProductID` (`ProductID`);
 
 --
+-- Indexes for table `refund_requests`
+--
+ALTER TABLE `refund_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `shipping_addresses`
 --
 ALTER TABLE `shipping_addresses`
@@ -525,7 +580,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `CartID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `CartID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -537,19 +592,19 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `payment_logs`
 --
 ALTER TABLE `payment_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `productpictures`
@@ -570,10 +625,16 @@ ALTER TABLE `product_stocks`
   MODIFY `StockID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
+-- AUTO_INCREMENT for table `refund_requests`
+--
+ALTER TABLE `refund_requests`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `shipping_addresses`
 --
 ALTER TABLE `shipping_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `temp_users`
@@ -585,13 +646,13 @@ ALTER TABLE `temp_users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `UserID` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `verification_codes`
 --
 ALTER TABLE `verification_codes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- Constraints for dumped tables
@@ -616,6 +677,13 @@ ALTER TABLE `orders`
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`ProductID`);
+
+--
+-- Constraints for table `refund_requests`
+--
+ALTER TABLE `refund_requests`
+  ADD CONSTRAINT `refund_requests_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  ADD CONSTRAINT `refund_requests_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`UserID`);
 
 --
 -- Constraints for table `shipping_addresses`

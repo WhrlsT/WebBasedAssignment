@@ -6,34 +6,31 @@ include '_head.php';
 ?>
 
 <div class="login-container">
-    <h2>Login</h2>
-    <p class="welcome-text">Hi, Welcome back 👋</p>
-    
-    <?php if(isset($_GET['registered']) && $_GET['registered'] === 'true'): ?>
-        <div class="success-message">Registration successful! Please login.</div>
-    <?php endif; ?>
-    
-    <?php if(isset($_GET['admin_verify']) && $_GET['admin_verify'] === 'true'): ?>
-        <div class="info-message">Admin login requires additional verification. Please check your email.</div>
-    <?php endif; ?>
-    
-    <?php if(isset($_GET['error'])): ?>
-        <div class="error-message">
-            <?php 
-                $error = $_GET['error'];
-                if($error == 'invalid_credentials') {
-                    echo "Invalid username/email or password.";
-                } elseif($error == 'empty_fields') {
-                    echo "Please fill in all required fields.";
-                } elseif($error == 'not_verified') {
-                    echo "Your email is not verified. Please check your email for verification code.";
-                } else {
-                    echo "An error occurred. Please try again.";
-                }
-            ?>
-        </div>
-    <?php endif; ?>
-    
+    <h2>Welcome Back!</h2>
+    <p class="welcome-text">Please log in to continue.</p>
+
+    <?php
+    // Display messages
+    if (isset($_GET['error'])) {
+        $errorMsg = '';
+        switch ($_GET['error']) {
+            case 'empty_fields': $errorMsg = 'Please fill in both username/email and password.'; break;
+            case 'invalid_credentials': $errorMsg = 'Invalid username, email, or password.'; break;
+            case 'database_error': $errorMsg = 'An error occurred. Please try again later.'; break;
+            case 'account_deactivated': $errorMsg = 'Your account has been deactivated. Please contact support.'; break; // New message
+            case 'not_verified': $errorMsg = 'Your email is not verified. Please check your email for the verification code.'; break;
+            default: $errorMsg = 'An unknown error occurred.'; break;
+        }
+        echo '<div class="error-message">' . htmlspecialchars($errorMsg) . '</div>';
+    }
+    if (isset($_GET['success'])) {
+         echo '<div class="success-message">Password reset successfully. You can now log in.</div>';
+    }
+     if (isset($_GET['info']) && $_GET['info'] === 'verification_sent') {
+        echo '<div class="info-message">A new verification code has been sent to your email.</div>';
+    }
+    ?>
+
     <form id="loginForm" action="process_login.php" method="POST">
         <div class="form-group">
             <label for="loginIdentifier">Username or Email</label>
@@ -51,7 +48,8 @@ include '_head.php';
                 <input type="checkbox" id="rememberMe" name="rememberMe">
                 <label for="rememberMe">Remember Me</label>
             </div>
-            <a href="#" class="forgot-password">Forgot Password?</a>
+            <!-- Update the href attribute -->
+            <a href="forgot_password.php" class="forgot-password">Forgot Password?</a>
         </div>
         <div class="form-group">
             <button type="submit" class="login-btn">Login</button>

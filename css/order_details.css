@@ -401,3 +401,44 @@
         height: 60px;
     }
 }
+
+.order-action-buttons {
+    text-align: right;
+    padding-top: 50px;
+}
+
+.order-action-buttons form {
+    padding-left: 30px;
+}
+
+.received-action-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s;
+    border: none;
+}
+
+.refund-action-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff5252;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s;
+    border: none;
+}
+
+.received-action-btn:hover {
+    background-color: #348738;
+}
+
+.refund-action-btn:hover {
+    background-color: #ca355f;
+}

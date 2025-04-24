@@ -166,9 +166,7 @@ include '../_head.php';
                     <select name="status" id="status" required>
                         <option value="Pending" <?php echo $order['status'] === 'Pending' ? 'selected' : ''; ?>>Pending</option>
                         <option value="Paid" <?php echo $order['status'] === 'Paid' ? 'selected' : ''; ?>>Paid</option>
-                        <option value="Processing" <?php echo $order['status'] === 'Processing' ? 'selected' : ''; ?>>Processing</option>
                         <option value="Shipped" <?php echo $order['status'] === 'Shipped' ? 'selected' : ''; ?>>Shipped</option>
-                        <option value="Delivered" <?php echo $order['status'] === 'Delivered' ? 'selected' : ''; ?>>Delivered</option>
                         <option value="Cancelled" <?php echo $order['status'] === 'Cancelled' ? 'selected' : ''; ?>>Cancelled</option>
                         <option value="Refunded" <?php echo $order['status'] === 'Refunded' ? 'selected' : ''; ?>>Refunded</option>
                     </select>

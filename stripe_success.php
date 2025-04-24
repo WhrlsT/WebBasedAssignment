@@ -1,84 +1,128 @@
 <?php
-require '_base.php';
-require 'config_stripe.php';
+require '_base.php'; // Includes DB, session
+require 'config_stripe.php'; // Includes Stripe PHP library and sets API key
 
-// Redirect to login if not logged in
-if (!$loggedIn) {
+// Ensure user is logged in
+if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
+$userId = $_SESSION['user_id'];
 
-// Check if session ID is provided
-if (!isset($_GET['session_id']) || empty($_GET['session_id'])) {
-    header('Location: cart.php');
+// Get Stripe session ID from URL
+$session_id = $_GET['session_id'] ?? null;
+
+if (!$session_id) {
+    // Redirect if session ID is missing
+    header('Location: cart.php?error=stripe_session_missing');
     exit;
 }
 
-$sessionId = $_GET['session_id'];
+$orderId = null;
+$stripePaymentIntentId = null;
 
 try {
-    // Retrieve the session
-    $session = $stripe->checkout->sessions->retrieve($sessionId);
-    
+    // Retrieve the Stripe Checkout Session to verify payment and get metadata
+    $checkout_session = \Stripe\Checkout\Session::retrieve($session_id, [
+        'expand' => ['payment_intent', 'line_items.data.price.product']
+    ]);
+
     // Check if payment was successful
-    if ($session->payment_status === 'paid') {
-        // Update order status
-        $stmt = $pdo->prepare("
-            UPDATE orders 
-            SET status = 'Paid', 
-                payment_id = ?, 
-                payment_method = 'stripe',
-                payment_date = NOW()
-            WHERE payment_session_id = ?
-        ");
-        $stmt->execute([$session->payment_intent, $sessionId]);
-        
-        // Get the order ID
-        $stmt = $pdo->prepare("
-            SELECT id, user_id, order_reference FROM orders WHERE payment_session_id = ?
-        ");
-        $stmt->execute([$sessionId]);
-        $order = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if ($order && $order['user_id'] == $_SESSION['user_id']) {
-            $orderId = $order['id'];
-            
-            // Log the payment in payment_logs table
-            $paymentData = json_encode($session);
-            $stmt = $pdo->prepare("
-                INSERT INTO payment_logs 
-                (txn_id, order_reference, payment_amount, payment_currency, 
-                payer_email, payment_status, ipn_data) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-            ");
-            $stmt->execute([
-                $session->payment_intent,
-                $order['order_reference'],
-                $session->amount_total / 100, // Convert from cents
-                strtoupper($session->currency),
-                $_SESSION['email'] ?? 'unknown',
-                'Completed',
-                $paymentData
-            ]);
-            
-            // Clear the user's cart
-            $stmt = $pdo->prepare("DELETE FROM cart WHERE UserID = ?");
-            $stmt->execute([$_SESSION['user_id']]);
-            
-            // Redirect to order details page
-            header("Location: order_details.php?id=" . $orderId);
-            exit;
-        }
-    } else {
-        // Payment not completed
-        header('Location: checkout.php?error=payment_failed');
+    if ($checkout_session->payment_status !== 'paid') {
+        header('Location: checkout.php?error=stripe_payment_failed');
         exit;
     }
+
+    // Get Order ID from metadata
+    if (!isset($checkout_session->metadata['order_id']) || !is_numeric($checkout_session->metadata['order_id'])) {
+         throw new Exception("Order ID missing from Stripe session metadata.");
+    }
+    $orderId = (int)$checkout_session->metadata['order_id'];
+    $stripePaymentIntentId = $checkout_session->payment_intent->id ?? null;
+
+    // --- Start Database Transaction ---
+    $pdo->beginTransaction();
+
+    // --- Fetch Order, Shipping, and User Details ---
+    $stmt = $pdo->prepare("
+        SELECT
+            o.*,
+            sa.*,
+            u.FirstName as UserFirstName,
+            u.LastName as UserLastName,
+            u.Email as UserEmail
+        FROM orders o
+        LEFT JOIN shipping_addresses sa ON o.id = sa.order_id AND sa.user_id = o.user_id
+        LEFT JOIN users u ON o.user_id = u.UserID
+        WHERE o.id = ? AND o.user_id = ?
+        LIMIT 1
+    ");
+    $stmt->execute([$orderId, $userId]);
+    $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$order) {
+        $pdo->rollBack();
+        header('Location: my_orders.php?error=not_found');
+        exit;
+    }
+
+    // --- Update Order Status (Only if not already Paid) ---
+    $paymentProcessed = false;
+    if ($order['status'] !== 'Paid') {
+        $updateStmt = $pdo->prepare("
+            UPDATE orders
+            SET status = 'Paid',
+                payment_id = ?,
+                payment_method = 'stripe',
+                payment_date = NOW()
+            WHERE id = ? AND user_id = ? AND status != 'Paid'
+        ");
+        $paymentIdToStore = $stripePaymentIntentId ?? $session_id;
+        $updateStmt->execute([$paymentIdToStore, $orderId, $userId]);
+
+        if ($updateStmt->rowCount() > 0) {
+             $paymentProcessed = true;
+             // Clear cart
+             $clearCartStmt = $pdo->prepare("DELETE FROM cart WHERE UserID = ?");
+             $clearCartStmt->execute([$userId]);
+        }
+    }
+
+    // --- Commit Transaction ---
+    $pdo->commit();
+
+    // Verify session is still active
+    session_write_close(); // Ensure session is saved
+    session_start(); // Restart session for redirect
+
+    // Debug log the redirect
+    error_log("Redirecting to sendReceipt.php for order: $orderId");
+
+    // Ensure no output has been sent before header()
+    if (headers_sent()) {
+        die("Redirect failed. Please click this link: <a href='sendReceipt.php?order_id=$orderId&method=stripe'>Continue</a>");
+    }
+
+    // Redirect to send receipt handler
+    header("Location: sendReceipt.php?order_id=" . $orderId . "&method=stripe");
+    exit;
+
+} catch (\Stripe\Exception\ApiErrorException $e) {
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    header('Location: checkout.php?error=stripe_api_error');
+    exit;
+} catch (PDOException $e) {
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    header('Location: checkout.php?error=db_error');
+    exit;
 } catch (Exception $e) {
-    // Log error
-    error_log('Stripe Error: ' . $e->getMessage());
-    
-    // Redirect to profile
-    header('Location: profile.php?error=payment_verification_failed');
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    header('Location: checkout.php?error=processing_error');
     exit;
 }
