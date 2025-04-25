@@ -51,7 +51,4 @@ try {
     exit;
 }
 
-// Fallback redirect in case something unexpected happens
-header("Location: order_details.php?id=$orderId");
-exit;
 ?>
