@@ -122,6 +122,20 @@ include '_head.php';
             }
             ?>
 
+        <?php if ($currentStatusLower == 'pending'): ?>
+            <div class="payment-options">
+                <h3>Complete Your Payment</h3>
+                <div class="payment-buttons">
+                    <a href="process_stripe.php?order_id=<?php echo $orderId; ?>" class="btn btn-primary">
+                        <i class="fab fa-stripe"></i> Pay with Stripe
+                    </a>
+                    <a href="process_paypal.php?order_id=<?php echo $orderId; ?>" class="btn btn-primary">
+                        <i class="fab fa-paypal"></i> Pay with PayPal
+                    </a>
+                </div>
+            </div>
+        <?php endif; ?>
+
             <div class="status-timeline">
                 <?php foreach ($statuses as $index => $status): ?>
                     <?php
@@ -296,29 +310,41 @@ include '_head.php';
             $currentStatusLower = strtolower($order['status']);
             $canMarkReceived = $currentStatusLower === 'shipped';
             $canCancel = in_array($currentStatusLower, ['paid', 'processing']);
-            // Allow refund request only if shipped or delivered
-            $canRequestRefund = in_array($currentStatusLower, ['shipped', 'delivered']);
+            // Allow refund request only if delivered (changed from shipped/delivered)
+            $canRequestRefund = $currentStatusLower === 'delivered';
             // Disable buttons if status is cancelled, refund requested, or refunded
             $isFinalState = in_array($currentStatusLower, ['cancelled', 'refund request', 'refunded']);
         ?>
 
         <!-- Order Received Button -->
-        <form action="mark_received.php" method="POST" style="display: inline;">
-            <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
-            <button type="submit" class="received-action-btn"
-                <?php if (!$canMarkReceived || $isFinalState) echo 'disabled style="opacity: 0.5; cursor: not-allowed;"'; ?>>
-                Order Received
-            </button>
-        </form>
+        <?php if ($canMarkReceived && !$isFinalState): ?>
+            <form action="mark_received.php" method="POST" style="display: inline;">
+                <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
+                <button type="submit" class="received-action-btn">
+                    Order Received
+                </button>
+            </form>
+        <?php endif; ?>
 
         <!-- Cancel Order / Request Refund Button -->
         <?php if ($canCancel && !$isFinalState): ?>
             <form action="cancel_order.php" method="POST" style="display: inline;">
                 <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
-                <button type="submit" class="cancel-action-btn">
-                    Cancel Order
+                <button type="submit" class="cancel-action-btn" style="
+                    background-color: #f44336;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                ">
+                    <i class="fas fa-times-circle"></i> Cancel Order
                 </button>
             </form>
+            
         <?php elseif ($canRequestRefund && !$isFinalState): ?>
             <form action="refund.php" method="POST" style="display: inline;">
                 <input type="hidden" name="order_id" value="<?php echo $order['id']; ?>">
@@ -326,24 +352,25 @@ include '_head.php';
                     Request Refund
                 </button>
             </form>
-        <?php else: ?>
-            <!-- Show a disabled button or specific status text -->
-            <button type="button" class="refund-action-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
-                <?php
-                    // Show the current status if it's a final state, otherwise default disabled text
-                    if ($isFinalState) {
-                        echo htmlspecialchars(ucwords($order['status'])); // e.g., Refund Request, Refunded, Cancelled
-                    } elseif (!$canCancel && !$canRequestRefund) {
-                         // If neither cancel nor refund is possible for other reasons (e.g., pending)
-                         echo 'Request Refund'; // Or perhaps 'Action Unavailable'
-                    } else {
-                        // Default disabled text if conditions above aren't met (shouldn't usually happen with current logic)
-                        echo 'Request Refund';
-                    }
-                ?>
-            </button>
         <?php endif; ?>
     </div>
 </div>
 
 <?php include '_foot.php'; ?>
+
+<style>
+    .cancel-action-btn:hover {
+    background-color: #d32f2f !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15) !important;
+}
+
+.cancel-action-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1) !important;
+}
+
+.cancel-action-btn i {
+    margin-right: 8px;
+}
+</style>
