@@ -99,6 +99,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
             }
 
+            // For regular users, set remember me cookie if selected
+            if ($rememberMe) {
+                $token = bin2hex(random_bytes(32));
+                $expires = time() + (86400 * 30); // 30 days
+
+                // Store token in database
+                $stmt = $pdo->prepare("UPDATE users SET remember_token = ? WHERE UserID = ?");
+                $stmt->execute([$token, $user['UserID']]);
+
+                // Set cookie
+                setcookie('remember_token', $token, $expires, '/');
+            }
+
             // Set session data for regular users
             $_SESSION['user_id'] = $user['UserID'];
             $_SESSION['first_name'] = $user['FirstName'];
@@ -110,26 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Add this line to set is_admin flag
             $_SESSION['is_admin'] = ($user['UserType'] === 'Admin') ? 1 : 0;
-
-            // Handle remember me functionality
-            if ($rememberMe) {
-                $token = bin2hex(random_bytes(32));
-                $expires = time() + (86400 * 30); // 30 days
-
-                // Store token in database
-                $stmt = $pdo->prepare("UPDATE users SET remember_token = ? WHERE UserID = ?");
-                $stmt->execute([$token, $user['UserID']]);
-
-                // Set cookie
-                setcookie('remember_token', $token, $expires, '/');
-            } else {
-                // Clear remember me token if checkbox is not checked
-                $stmt = $pdo->prepare("UPDATE users SET remember_token = NULL WHERE UserID = ?");
-                $stmt->execute([$user['UserID']]);
-                
-                // Clear cookie
-                setcookie('remember_token', '', time() - 3600, '/');
-            }
 
             // Redirect to home page
             header("Location: index.php");
@@ -153,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 function send_admin_otp_email($email, $otp) {
     // You can customize this function to send a special admin OTP email
     // For now, we'll reuse the existing send_otp_email function
-    send_otp_email($email, $otp, "Admin Login Verification");
+    send_otp_email($email, $otp);
 }
 
 // Make sure generate_otp() and send_otp_email() are defined in _base.php or included files
