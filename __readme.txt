@@ -1,4 +1,4 @@
-Please import the database from sigmamart.sql located in the SQL folder
+Please import the database from sigmamart.sql located in the databases folder
 
 Admin Account Requires Email Verification Code
 Please login to this gmail account
