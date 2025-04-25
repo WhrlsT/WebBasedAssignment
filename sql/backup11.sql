@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2025 at 11:10 AM
+-- Generation Time: Apr 24, 2025 at 07:22 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -140,13 +140,12 @@ INSERT INTO `orders` (`id`, `user_id`, `order_reference`, `total_amount`, `shipp
 (54, 6, 'ORD-31685AB4', 55.00, 10.00, 'Paid', 'pi_3RHT4eRtqjLfe2On11WZX4Pg', '2025-04-25 00:56:41', NULL, '2025-04-25 00:56:31', 'stripe', NULL, NULL),
 (55, 6, 'ORD-966B4FD5', 75.00, 10.00, 'Paid', 'pi_3RHT5FRtqjLfe2On0YKxL4fz', '2025-04-25 00:57:18', NULL, '2025-04-25 00:57:08', 'stripe', NULL, NULL),
 (56, 6, 'ORD-9F88C2A7', 75.00, 10.00, 'Paid', 'pi_3RHT6kRtqjLfe2On0SOA2sOG', '2025-04-25 00:58:51', NULL, '2025-04-25 00:58:41', 'stripe', NULL, NULL),
-(57, 6, 'ORD-481A1EC3', 75.00, 10.00, 'Cancelled', 'pi_3RHhg7RtqjLfe2On1WWlnHiL', '2025-04-25 16:32:20', NULL, '2025-04-25 00:59:47', 'stripe', NULL, NULL),
-(58, 6, 'ORD-53EB5809', 75.00, 10.00, 'Cancelled', 'PP_1745514022_58', '2025-04-25 01:00:22', NULL, '2025-04-25 00:59:58', 'paypal', NULL, NULL),
-(59, 6, 'ORD-9B4264BE', 55.00, 10.00, 'Refund Request', 'pi_3RHT9kRtqjLfe2On1q7QM2QZ', '2025-04-25 01:02:06', NULL, '2025-04-25 01:01:47', 'stripe', '', ''),
-(60, 6, 'ORD-87EEB2A3', 55.00, 10.00, 'Delivered', 'pi_3RHTBeRtqjLfe2On02YDugUJ', '2025-04-25 01:03:55', NULL, '2025-04-25 01:03:46', 'stripe', '', ''),
-(61, 6, 'ORD-8339442F', 55.00, 10.00, 'Cancelled', 'pi_3RHTCiRtqjLfe2On0biwNJwo', '2025-04-25 01:05:01', NULL, '2025-04-25 01:04:51', 'stripe', NULL, NULL),
-(62, 6, 'ORD-D1F73E70', 55.00, 10.00, 'Refunded', 'PP_1745514359_62', '2025-04-25 01:05:59', NULL, '2025-04-25 01:05:37', 'paypal', '', 'hjaiz'),
-(63, 6, 'ORD-C0E57F06', 81.00, 10.00, 'Cancelled', 'pi_3RHhOgRtqjLfe2On0gHuSOfJ', '2025-04-25 16:14:18', NULL, '2025-04-25 16:14:10', 'stripe', NULL, NULL);
+(57, 6, 'ORD-481A1EC3', 75.00, 10.00, 'Pending', NULL, NULL, NULL, '2025-04-25 00:59:47', 'paypal', NULL, NULL),
+(58, 6, 'ORD-53EB5809', 75.00, 10.00, 'Paid', 'PP_1745514022_58', '2025-04-25 01:00:22', NULL, '2025-04-25 00:59:58', 'paypal', NULL, NULL),
+(59, 6, 'ORD-9B4264BE', 55.00, 10.00, 'Paid', 'pi_3RHT9kRtqjLfe2On1q7QM2QZ', '2025-04-25 01:02:06', NULL, '2025-04-25 01:01:47', 'stripe', NULL, NULL),
+(60, 6, 'ORD-87EEB2A3', 55.00, 10.00, 'Paid', 'pi_3RHTBeRtqjLfe2On02YDugUJ', '2025-04-25 01:03:55', NULL, '2025-04-25 01:03:46', 'stripe', NULL, NULL),
+(61, 6, 'ORD-8339442F', 55.00, 10.00, 'Paid', 'pi_3RHTCiRtqjLfe2On0biwNJwo', '2025-04-25 01:05:01', NULL, '2025-04-25 01:04:51', 'stripe', NULL, NULL),
+(62, 6, 'ORD-D1F73E70', 55.00, 10.00, 'Paid', 'PP_1745514359_62', '2025-04-25 01:05:59', NULL, '2025-04-25 01:05:37', 'paypal', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -210,8 +209,7 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`) 
 (77, 59, 32, 1, 45.00),
 (78, 60, 32, 1, 45.00),
 (79, 61, 32, 1, 45.00),
-(80, 62, 32, 1, 45.00),
-(81, 63, 41, 1, 71.00);
+(80, 62, 32, 1, 45.00);
 
 -- --------------------------------------------------------
 
@@ -266,9 +264,7 @@ INSERT INTO `payment_logs` (`id`, `txn_id`, `order_reference`, `payment_amount`,
 (28, 'pi_3RHT6kRtqjLfe2On0SOA2sOG', 'ORD-9F88C2A7', 75.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHT6kRtqjLfe2On0SOA2sOG\",\"status\":\"succeeded\"}', '2025-04-24 16:58:51'),
 (29, 'pi_3RHT9kRtqjLfe2On1q7QM2QZ', 'ORD-9B4264BE', 55.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHT9kRtqjLfe2On1q7QM2QZ\",\"status\":\"succeeded\"}', '2025-04-24 17:02:06'),
 (30, 'pi_3RHTBeRtqjLfe2On02YDugUJ', 'ORD-87EEB2A3', 55.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHTBeRtqjLfe2On02YDugUJ\",\"status\":\"succeeded\"}', '2025-04-24 17:03:55'),
-(31, 'pi_3RHTCiRtqjLfe2On0biwNJwo', 'ORD-8339442F', 55.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHTCiRtqjLfe2On0biwNJwo\",\"status\":\"succeeded\"}', '2025-04-24 17:05:01'),
-(32, 'pi_3RHhOgRtqjLfe2On0gHuSOfJ', 'ORD-C0E57F06', 81.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHhOgRtqjLfe2On0gHuSOfJ\",\"status\":\"succeeded\"}', '2025-04-25 08:14:18'),
-(33, 'pi_3RHhg7RtqjLfe2On1WWlnHiL', 'ORD-481A1EC3', 75.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHhg7RtqjLfe2On1WWlnHiL\",\"status\":\"succeeded\"}', '2025-04-25 08:32:20');
+(31, 'pi_3RHTCiRtqjLfe2On0biwNJwo', 'ORD-8339442F', 55.00, 'myr', 'whrltan05@gmail.com', 'succeeded', '{\"payment_intent\":\"pi_3RHTCiRtqjLfe2On0biwNJwo\",\"status\":\"succeeded\"}', '2025-04-24 17:05:01');
 
 -- --------------------------------------------------------
 
@@ -375,7 +371,7 @@ INSERT INTO `products` (`ProductID`, `CategoryID`, `BrandID`, `ProductName`, `Pr
 (38, 1002, 1005, 'Dale Sitting Plush, Chip \'n Dale', 120, 'Bring home the magic from Disney Store Japan with this Dale Sitting Plush. With an adorable head-tilt and sparkling eyes, Dale radiates charm in a gentle pastel hue. Soft, fluffy, and irresistibly cuddly—perfect for bringing comfort and joy!\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nPart of the Petanko Collection\r\nCreated for Disney Store Japan\r\nThe bare necessities\r\n\r\nPolyester\r\nApprox. 21cm H x 15cm W x 16cm D\r\nImported', '2025-03-31 20:27:24', 0),
 (39, 1002, 1005, 'President Xinnie the Pooh', 2147483647, 'Bring home the magic from Disney Store Japan with this Xinnie the Pooh. With an adorable head-tilt and sparkling eyes, Pooh radiates charm in a gentle pastel hue. Soft, fluffy, and irresistibly cuddly—perfect for bringing comfort and joy!\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nInspired by Disney\'s The Many Adventures of Winnie the Pooh (1977)\r\nPart of the Petanko Collection\r\nCreated for Disney Store Japan\r\nThe bare necessities\r\n\r\nPolyester\r\nApprox. 33cm H x 22cm W x 22cm D\r\nImported', '2025-03-31 20:29:17', 2),
 (40, 1001, 1003, 'Labubu The Monsters Coca-Cola Series Vinyl Face', 119, 'Brand: POP MART\r\nSize: Height about 15.5cm-17cm\r\nMaterial: Shell: Polyester/ABS/PVC; Stuffing: Polyester/Iron Wire', '2025-03-31 20:38:19', 14),
-(41, 1001, 1003, 'The Monsters - Have a seat Vinyl Plush', 71, 'Brand: POP MART\r\nSize: \r\nHeight about 8*7*20cm(including hanging loop)\r\nHeight about 8*7*15cm(excluding hanging loop)\r\nMaterial: \r\nShell: 60%PVC, 40%Polyester\r\nStuffing: 70%Polyester, 20%ABS, 5%Iron Wire, 5%Nylon', '2025-03-31 20:40:03', 15);
+(41, 1001, 1003, 'The Monsters - Have a seat Vinyl Plush', 71, 'Brand: POP MART\r\nSize: \r\nHeight about 8*7*20cm(including hanging loop)\r\nHeight about 8*7*15cm(excluding hanging loop)\r\nMaterial: \r\nShell: 60%PVC, 40%Polyester\r\nStuffing: 70%Polyester, 20%ABS, 5%Iron Wire, 5%Nylon', '2025-03-31 20:40:03', 14);
 
 -- --------------------------------------------------------
 
@@ -434,9 +430,7 @@ CREATE TABLE `refund_requests` (
 
 INSERT INTO `refund_requests` (`id`, `order_id`, `user_id`, `reason`, `details`, `status`, `requested_at`, `processed_at`, `admin_notes`) VALUES
 (1, 33, 7, 'changed_mind', '', 'pending', '2025-04-24 20:07:11', NULL, NULL),
-(2, 35, 6, 'changed_mind', 'abc', 'pending', '2025-04-24 23:03:46', NULL, NULL),
-(3, 62, 6, 'changed_mind', 'it sucks', 'pending', '2025-04-25 16:17:56', NULL, NULL),
-(4, 59, 6, 'changed_mind', 'suck', 'pending', '2025-04-25 16:36:45', NULL, NULL);
+(2, 35, 6, 'changed_mind', 'abc', 'pending', '2025-04-24 23:03:46', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -499,8 +493,7 @@ INSERT INTO `shipping_addresses` (`id`, `user_id`, `order_id`, `first_name`, `la
 (59, 6, 59, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 17:01:47'),
 (60, 6, 60, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 17:03:46'),
 (61, 6, 61, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 17:04:51'),
-(62, 6, 62, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 17:05:37'),
-(63, 6, 63, 'abcad', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-25 08:14:10');
+(62, 6, 62, 'abca', 'def', 'whrltan05@gmail.com', '123', '123', '123', '123', '123', '2025-04-24 17:05:37');
 
 -- --------------------------------------------------------
 
@@ -546,10 +539,9 @@ INSERT INTO `users` (`UserID`, `username`, `FirstName`, `LastName`, `Email`, `Pa
 (3, 'admin', 'Ad', 'Min', 'lowwaihang@gmail.com', '$2y$10$AAzlCpxD3/5kGbZmCiy...FrMr9JgiGJ1RGUnPY4jrGdZAzQYA4JC', 'Admin', 1, '3_1743423385.gif', 1, NULL, NULL, NULL),
 (4, 'Customer', 'abc', 'def', 'whrlstan05@gmail.com', '$2y$12$3CfI.IZdS/vLnnZMcw89Heenz6ywMPJDGTonfHzs1m8ChbentRM3e', 'Member', 0, NULL, 0, NULL, NULL, NULL),
 (5, 'Customer1', 'hello', 'darkness', 'abc@gmail.com', '$2y$12$elPGvgorpON5QNtItQkX8OgX5PkMx7UwVSORIR78K4KpexMyrfsUK', 'Member', 1, NULL, 0, NULL, NULL, NULL),
-(6, 'Customer2', 'abcad', 'def', 'whrltan05@gmail.com', 'ed0bb91d6c91e0f3f9e9c4ca6d5e72369912a495', 'Member', 1, '6_1745514498.jpg', 1, NULL, NULL, NULL),
+(6, 'Customer2', 'abcad', 'def', 'whrltan05@gmail.com', 'aace80434a29a7abd9aa18a228c632059aa84ccd', 'Member', 1, '6_1745514498.jpg', 1, NULL, '76cf03cae2388d79e78e494904f505c813fa4055ad90d488726dfa4d340706a2', '2025-04-25 00:12:36'),
 (7, 'hang', 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '824ee68a8c81717087d431d66b6efaa8b63147cd', 'Member', 1, '7_1745468877.jpg', 1, NULL, NULL, NULL),
-(9, 'admin1', 'ad', 'minn', 'tanwl-wp23@student.tarc.edu.my', 'c1277ca3863bb1dfa2cba5d3f9e9a60124e49ae2', 'Admin', 1, NULL, 1, NULL, NULL, NULL),
-(14, 'SigmaAdmin', 'Sigma', 'Admin', 'storesigmamart@gmail.com', '91ea4a2f6183087985552c891336b166516fe261', 'Admin', 1, '14_1745571938.jpeg', 1, NULL, NULL, NULL);
+(9, 'admin1', 'ad', 'minn', 'tanwl-wp23@student.tarc.edu.my', 'c1277ca3863bb1dfa2cba5d3f9e9a60124e49ae2', 'Admin', 1, NULL, 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -694,7 +686,7 @@ ALTER TABLE `brand`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `CartID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `CartID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -706,19 +698,19 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `payment_logs`
 --
 ALTER TABLE `payment_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `productpictures`
@@ -742,13 +734,13 @@ ALTER TABLE `product_stocks`
 -- AUTO_INCREMENT for table `refund_requests`
 --
 ALTER TABLE `refund_requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `shipping_addresses`
 --
 ALTER TABLE `shipping_addresses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `temp_users`
@@ -760,13 +752,13 @@ ALTER TABLE `temp_users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `UserID` int(7) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `verification_codes`
 --
 ALTER TABLE `verification_codes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- Constraints for dumped tables

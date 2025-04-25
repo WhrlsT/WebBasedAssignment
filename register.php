@@ -67,13 +67,7 @@ include '_head.php';
                 <button type="button" id="sendVerificationBtn" class="send-otp-btn">Send OTP</button>
             </div>
             <small id="verificationStatus" class="form-text"></small>
-            
-            <?php
-            // For testing only - display the OTP
-            if (isset($_SESSION['last_otp']) && isset($_SESSION['otp_email'])) {
-                echo "<small class='form-text text-muted'>Test mode: OTP for " . $_SESSION['otp_email'] . " is " . $_SESSION['last_otp'] . "</small>";
-            }
-            ?>
+
         </div>
         
         <div class="form-group">

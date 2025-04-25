@@ -163,15 +163,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt = $pdo->prepare("DELETE FROM verification_codes WHERE email = ? AND type = 'registration'");
             $stmt->execute([$email]);
             
-            // Log the user in
-            $_SESSION['user_id'] = $pdo->lastInsertId();
-            $_SESSION['username'] = $username;
-            $_SESSION['user_type'] = $userType;
-            $_SESSION['first_name'] = $firstName;
-            $_SESSION['last_name'] = $lastName;
-            $_SESSION['email'] = $email;
-            $_SESSION['profile_picture'] = $profilePicture;
-            
             // Redirect to profile page
             header("Location: login.php");
             exit;
