@@ -180,38 +180,41 @@ define('INCLUDED_FROM_PROFILE', true);
     
     <div class="profile-content">
         <div class="profile-sidebar">
-            <div class="profile-picture-container">
-                <?php
-                // Check if user has a profile picture, otherwise use empty_image.jpg
-                $profilePic = !empty($user['profileimgpath']) ? 'profile_pictures/' . $user['profileimgpath'] : 'image/empty_image.jpg';
-                ?>
-                <img src="<?php echo $profilePic; ?>" alt="Profile Picture" class="profile-picture" id="profile-preview">
-                
-                <form action="" method="POST" enctype="multipart/form-data" class="picture-form">
-                    <div class="file-input-container">
-                        <input type="file" id="profilePicture" name="profilePicture" accept="image/*" onchange="previewProfileImage(this)">
-                        <label for="profilePicture" class="file-input-label">Choose File</label>
-                    </div>
-                    
-                    <button type="submit" name="upload_picture" class="upload-button">Upload Picture</button>
-                    
-                    <?php if ($pictureSuccess): ?>
-                        <div class="success-message">Profile picture updated successfully!</div>
-                    <?php endif; ?>
-                    
-                    <?php if ($pictureError): ?>
-                        <div class="error-message"><?php echo $pictureError; ?></div>
-                    <?php endif; ?>
-                </form>
-            </div>
-            
-            <div class="profile-menu">
-                <a href="#profile-info" class="menu-item active">Profile Information</a>
-                <a href="#change-password" class="menu-item">Change Password</a>
-                <a href="#order-history" class="menu-item">Order History</a>
-                <a href="logout.php" class="menu-item logout">Logout</a>
-            </div>
+        <?php
+        $profilePic = !empty($user['profileimgpath']) ? 'profile_pictures/' . $user['profileimgpath'] : 'image/empty_image.jpg';
+        ?>
+        
+        <div class="profile-picture-wrapper">
+            <img src="<?php echo $profilePic; ?>" alt="Profile Picture" class="profile-picture" id="profile-preview">
         </div>
+        
+        <form action="" method="POST" enctype="multipart/form-data" class="picture-form">
+            <div class="file-input-container">
+                <div class="drop-zone" id="drop-zone">
+                    <p>Drag & Drop your image here or click to select</p>
+                </div>
+            </div>
+
+            <input type="file" id="profilePicture" name="profilePicture" accept="image/*">
+            
+            <button type="submit" name="upload_picture" class="upload-button">Upload Picture</button>
+            
+            <?php if ($pictureSuccess): ?>
+                <div class="success-message">Profile picture updated successfully!</div>
+            <?php endif; ?>
+            
+            <?php if ($pictureError): ?>
+                <div class="error-message"><?php echo $pictureError; ?></div>
+            <?php endif; ?>
+        </form>
+        
+        <div class="profile-menu">
+            <a href="#profile-info" class="menu-item active">Profile Information</a>
+            <a href="#change-password" class="menu-item">Change Password</a>
+            <a href="#order-history" class="menu-item">Order History</a>
+            <a href="logout.php" class="menu-item logout">Logout</a>
+        </div>
+    </div>
         
         <div class="profile-details">
             <?php 
@@ -330,6 +333,78 @@ document.addEventListener('DOMContentLoaded', function() {
     function validateEmail(email) {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
+    }
+
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('profilePicture');
+
+    // Click to open file picker
+    dropZone.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    // When file selected via file picker
+    fileInput.addEventListener('change', function() {
+        if (validateFile(this.files[0])) {
+            previewProfileImage(this);
+        }
+    });
+
+    // Drag file over the drop zone
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+
+    // Drag leaves the drop zone
+    dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragover');
+    });
+
+    // File dropped
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+
+        if (e.dataTransfer.files.length > 0) {
+            const file = e.dataTransfer.files[0];
+            if (validateFile(file)) {
+                fileInput.files = e.dataTransfer.files; // Update file input
+                previewProfileImage(fileInput);         // Preview dropped file
+            }
+        }
+    });
+
+    // Preview image
+    function previewProfileImage(input) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profile-preview').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Validate file (type and size)
+    function validateFile(file) {
+        if (!file) return false;
+        
+        const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        const maxSize = 2 * 1024 * 1024; // 2MB
+        
+        if (!validTypes.includes(file.type)) {
+            alert('Please upload a valid image file (JPEG, PNG, GIF, or WebP).');
+            return false;
+        }
+        
+        if (file.size > maxSize) {
+            alert('Image size should not exceed 2MB.');
+            return false;
+        }
+        
+        return true;
     }
 });
 </script>                
