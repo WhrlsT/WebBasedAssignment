@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2025 at 06:18 PM
+-- Generation Time: Apr 25, 2025 at 11:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `sigmamart`
 --
+CREATE DATABASE IF NOT EXISTS `sigmamart` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `sigmamart`;
 
 -- --------------------------------------------------------
 
@@ -336,92 +338,7 @@ INSERT INTO `productpictures` (`pictureID`, `productID`, `isCover`, `picturePath
 (79, 41, 1, 'product_images/1743424803_1_1720611235209____形象7____.webp', 1),
 (80, 41, 0, 'product_images/1743424803_2_20250306_155820_755344_____02_____1200x1223.webp', 2),
 (81, 41, 0, 'product_images/1743424803_3_20250306_155820_102758_____03_____1200x1576.webp', 3),
-(82, 41, 0, 'product_images/1743424803_4_20250306_155820_115999_____08_____1200x1433.webp', 4),
-(83, 42, 1, 'product_images/1745761981_1_20250422_091913_954253____1_____1200x1200.jpg', 1),
-(84, 42, 0, 'product_images/1745761981_2_20250422_091913_325120____2_____1200x1200.jpg', 2),
-(85, 42, 0, 'product_images/1745761981_3_20250422_091913_427360____3_____1200x1200.jpg', 3),
-(86, 42, 0, 'product_images/1745761981_4_20250422_091913_967169____5_____1200x1200.jpg', 4),
-(87, 42, 0, 'product_images/1745761981_5_20250422_091913_284240____6_____1200x1200.jpg', 5),
-(88, 43, 1, 'product_images/1745762435_1_20241023_175237_423795____1_____1200x1200.jpg', 1),
-(89, 43, 0, 'product_images/1745762435_2_20241023_175239_132852____2_____1200x1200.jpg', 2),
-(90, 43, 0, 'product_images/1745762435_3_20241023_175241_240356____3_____1200x1200.jpg', 3),
-(91, 43, 0, 'product_images/1745762435_4_20241023_175244_947158____4_____1200x1200.jpg', 4),
-(92, 43, 0, 'product_images/1745762435_5_20241023_175247_461141____8_____1200x1200.jpg', 5),
-(93, 44, 1, 'product_images/1745763806_1_sanrio-official-cinnamoroll-baby-care-set-512991-plush-toy-doll-185313_1080x.jpg', 1),
-(94, 44, 0, 'product_images/1745763806_2_sanrio-official-cinnamoroll-baby-care-set-512991-plush-toy-doll-903999_1080x.jpg', 2),
-(95, 44, 0, 'product_images/1745763806_3_sanrio-official-cinnamoroll-baby-care-set-512991-plush-toy-doll-207485_1080x.jpg', 3),
-(96, 44, 0, 'product_images/1745763806_4_sanrio-official-cinnamoroll-baby-care-set-512991-plush-toy-doll-312596_1080x.jpg', 4),
-(97, 44, 0, 'product_images/1745763806_5_sanrio-official-cinnamoroll-baby-care-set-512991-plush-toy-doll-594785_1080x.webp', 5),
-(98, 45, 1, 'product_images/1745763956_1_sanrio-kuromi-plush-toy-standard-s-853984-188058_1080x.jpg', 1),
-(99, 45, 0, 'product_images/1745763956_2_sanrio-kuromi-plush-toy-standard-s-853984-457677_1080x.jpg', 2),
-(100, 45, 0, 'product_images/1745763956_3_sanrio-kuromi-plush-toy-standard-s-853984-833535_540x.jpg', 3),
-(101, 46, 1, 'product_images/1745764245_1_JUSH-Foil-550x550-1.png', 1),
-(102, 46, 0, 'product_images/1745764245_2_jush-art_01.png', 2),
-(103, 46, 0, 'product_images/1745764245_3_jush-art_02.png', 3),
-(104, 47, 1, 'product_images/1745764500_1_DUAD_550.png', 1),
-(105, 47, 0, 'product_images/1745764500_2_duad-art_01.png', 2),
-(106, 47, 0, 'product_images/1745764500_3_duad-art_02.png', 3),
-(107, 47, 0, 'product_images/1745764500_4_duad-art_03.png', 4),
-(108, 47, 0, 'product_images/1745764500_5_duad-art_04.png', 5),
-(109, 48, 1, 'product_images/1745764682_1_ALIN_550.png', 1),
-(110, 48, 0, 'product_images/1745764682_2_alin-art_01.png', 2),
-(111, 48, 0, 'product_images/1745764682_3_alin-art_02.png', 3),
-(112, 48, 0, 'product_images/1745764682_4_alin-art_03.png', 4),
-(113, 48, 0, 'product_images/1745764682_5_alin-art_04.png', 5),
-(114, 49, 1, 'product_images/1745765398_1_P10345_10-10157-101_01.jpg', 1),
-(115, 49, 0, 'product_images/1745765398_2_P10345_10-10157-101_02.jpg', 2),
-(116, 49, 0, 'product_images/1745765398_3_P10345_10-10157-101_03.jpg', 3),
-(117, 50, 1, 'product_images/1745765558_1_P9505_699-86340_01.jpg', 1),
-(118, 50, 0, 'product_images/1745765558_2_P9505_699-86340_02.jpg', 2),
-(119, 50, 0, 'product_images/1745765558_3_P9505_699-86340_03.jpg', 3),
-(120, 51, 1, 'product_images/1745765732_1_P8981_699-85399_01.jpg', 1),
-(121, 51, 0, 'product_images/1745765732_2_P8981_699-85399_02.jpg', 2),
-(122, 51, 0, 'product_images/1745765732_3_P8981_699-85399_03.jpg', 3),
-(123, 52, 1, 'product_images/1745766678_1_20241030_164603_705769____1_____1200x1200.jpg', 1),
-(124, 52, 0, 'product_images/1745766678_2_20241030_164603_612345____2_____1200x1200.jpg', 2),
-(125, 52, 0, 'product_images/1745766678_3_20241030_164603_606703____3_____1200x1200.jpg', 3),
-(126, 52, 0, 'product_images/1745766678_4_20241030_164604_304180____4_____1200x1200.jpg', 4),
-(127, 52, 0, 'product_images/1745766678_5_20241030_164606_383389____5_____1200x1200.jpg', 5),
-(128, 53, 1, 'product_images/1745766910_1_1_IzNrcxqj4R_1200x1200.jpg', 1),
-(129, 53, 0, 'product_images/1745766910_2_2_TL2O8qQcSu_1200x1200.jpg', 2),
-(130, 53, 0, 'product_images/1745766910_3_3_od4tfvDfO9_1200x1200.jpg', 3),
-(131, 53, 0, 'product_images/1745766910_4_5_5dilNHG4Po_1200x1200.jpg', 4),
-(132, 53, 0, 'product_images/1745766910_5_6_h8aFKySZ85_1200x1200.jpg', 5),
-(133, 54, 1, 'product_images/1745767178_1_BLMM-foil2_550.png', 1),
-(134, 54, 0, 'product_images/1745767178_2_blue-eyes-wm_sml.png', 2),
-(135, 54, 0, 'product_images/1745767178_3_Orcust-wm_sml.png', 3),
-(136, 54, 0, 'product_images/1745767178_4_gorz-wm_sml.png', 4),
-(137, 54, 0, 'product_images/1745767178_5_Dragonmaid-wm_sml.png', 5),
-(138, 55, 1, 'product_images/1745767510_1_WISU_550.png', 1),
-(139, 55, 0, 'product_images/1745767510_2_WISU-card3.png', 2),
-(140, 55, 0, 'product_images/1745767510_3_WISU-card2.png', 3),
-(141, 55, 0, 'product_images/1745767510_4_WISU-card1.png', 4),
-(142, 56, 1, 'product_images/1745767802_1_AMDE_550.png', 1),
-(143, 56, 0, 'product_images/1745767802_2_AMDE-EN007-wm.png', 2),
-(144, 56, 0, 'product_images/1745767802_3_AMDE-EN017-wm.png', 3),
-(145, 56, 0, 'product_images/1745767802_4_AMDE-EN027-wm.png', 4),
-(146, 57, 1, 'product_images/1745768026_1_GRCR_550.png', 1),
-(147, 57, 0, 'product_images/1745768026_2_GRCR_1.jpg', 2),
-(148, 57, 0, 'product_images/1745768026_3_GRCR_2.jpg', 3),
-(149, 57, 0, 'product_images/1745768026_4_GRCR_3.jpg', 4),
-(150, 58, 1, 'product_images/1745768104_1_SESL_Foil_Mock_FINAL.png', 1),
-(151, 58, 0, 'product_images/1745768104_2_sesl_Rock.png', 2),
-(152, 58, 0, 'product_images/1745768104_3_sesl_Plant.png', 3),
-(153, 58, 0, 'product_images/1745768104_4_sesl_Zombie.png', 4),
-(154, 59, 1, 'product_images/1745768283_1_P6379_174-80730_01.jpg', 1),
-(155, 59, 0, 'product_images/1745768283_2_P6379_174-80730_02.jpg', 2),
-(156, 59, 0, 'product_images/1745768283_3_P6379_174-80730_03.jpg', 3),
-(157, 60, 1, 'product_images/1745768841_1_P7914_180-85009_01.jpg', 1),
-(158, 60, 0, 'product_images/1745768841_2_P7914_180-85009_02.jpg', 2),
-(159, 60, 0, 'product_images/1745768841_3_P7914_180-85009_03.jpg', 3),
-(160, 61, 1, 'product_images/1745769126_1_P9504_699-86981_01.jpg', 1),
-(161, 61, 0, 'product_images/1745769126_2_P9504_699-86981_02.jpg', 2),
-(162, 61, 0, 'product_images/1745769126_3_P9504_699-86981_03.jpg', 3),
-(163, 62, 1, 'product_images/1745769793_1_1745489400636____box_pic_with_shadow____.png', 1),
-(164, 62, 0, 'product_images/1745769793_2_ezgif-3712433d991120.png', 2),
-(165, 62, 0, 'product_images/1745769793_3_ezgif-3167382d4affca.png', 3),
-(166, 62, 0, 'product_images/1745769793_4_ezgif-3f04ac8588f536.png', 4),
-(167, 62, 0, 'product_images/1745769793_5_ezgif-3c40ad36962231.png', 5);
+(82, 41, 0, 'product_images/1743424803_4_20250306_155820_115999_____08_____1200x1433.webp', 4);
 
 -- --------------------------------------------------------
 
@@ -458,28 +375,7 @@ INSERT INTO `products` (`ProductID`, `CategoryID`, `BrandID`, `ProductName`, `Pr
 (38, 1002, 1005, 'Dale Sitting Plush, Chip \'n Dale', 120, 'Bring home the magic from Disney Store Japan with this Dale Sitting Plush. With an adorable head-tilt and sparkling eyes, Dale radiates charm in a gentle pastel hue. Soft, fluffy, and irresistibly cuddly—perfect for bringing comfort and joy!\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nPart of the Petanko Collection\r\nCreated for Disney Store Japan\r\nThe bare necessities\r\n\r\nPolyester\r\nApprox. 21cm H x 15cm W x 16cm D\r\nImported', '2025-03-31 20:27:24', 0),
 (39, 1002, 1005, 'President Xinnie the Pooh', 2147483647, 'Bring home the magic from Disney Store Japan with this Xinnie the Pooh. With an adorable head-tilt and sparkling eyes, Pooh radiates charm in a gentle pastel hue. Soft, fluffy, and irresistibly cuddly—perfect for bringing comfort and joy!\r\n\r\nMagic in the details\r\n\r\nDetailed plush sculpting\r\nEmbroidered features\r\nInspired by Disney\'s The Many Adventures of Winnie the Pooh (1977)\r\nPart of the Petanko Collection\r\nCreated for Disney Store Japan\r\nThe bare necessities\r\n\r\nPolyester\r\nApprox. 33cm H x 22cm W x 22cm D\r\nImported', '2025-03-31 20:29:17', 2),
 (40, 1001, 1003, 'Labubu The Monsters Coca-Cola Series Vinyl Face', 119, 'Brand: POP MART\r\nSize: Height about 15.5cm-17cm\r\nMaterial: Shell: Polyester/ABS/PVC; Stuffing: Polyester/Iron Wire', '2025-03-31 20:38:19', 14),
-(41, 1001, 1003, 'The Monsters - Have a seat Vinyl Plush', 71, 'Brand: POP MART\r\nSize: \r\nHeight about 8*7*20cm(including hanging loop)\r\nHeight about 8*7*15cm(excluding hanging loop)\r\nMaterial: \r\nShell: 60%PVC, 40%Polyester\r\nStuffing: 70%Polyester, 20%ABS, 5%Iron Wire, 5%Nylon', '2025-03-31 20:40:03', 15),
-(42, 1001, 1003, 'THE MONSTERS Big into Energy Series-Vinyl Plush Pendant Blind Box', 71, 'Brand: POP MART \r\nSize: Height about 15cm \r\nMaterial:Fabric: PVC/polyester Filling: Polyester/iron wire \r\nA whole set contains 6 blind boxes', '2025-04-27 21:53:01', 0),
-(43, 1001, 1002, 'League of Legends K/DA ALL OUT Series Figures', 71, 'Brand: POP MART\r\nSize: Height about 12.7cm-14cm\r\nMaterial: PVC/ABS\r\nA whole set contains 5 blind boxes', '2025-04-27 22:00:35', 0),
-(44, 1002, 1001, 'SANRIO Official Cinnamoroll Baby Care Set 512991 Plush Toy Doll', 122, 'Delight your child with a plush toy that brings the joy of pretend play to life. This cuddly companion, designed for kids aged 3 and up, offers a nurturing experience as children can feed it with a bottle, soothe it with a pacifier, and wrap it in a swaddling cloth for a peaceful sleep. The pacifier is cleverly designed with a magnet for an added element of interactive fun. However, please be aware of the safety warnings, as the toy contains small parts and magnets that could pose a choking hazard and is not suitable for washing.', '2025-04-27 22:23:26', 0),
-(45, 1002, 1001, 'Sanrio Kuromi Plush Toy (Standard) S 853984', 112, 'A plush toy that soothes you every time you hug it. Smooth, soft and fluffy to the touch that makes you want to pet it all the time. The cute little sitting pose is sure to make you smile.\r\n\r\nSafety Warning: None\r\n\r\nBody size: approx. 17 x 11 x 24 cm. Main materials: polyester\r\nAges 3 and up. \r\nAdaptable to ages 3 and up.(C)2005񫺦 SANRIO CO.,LTD.(P)', '2025-04-27 22:25:56', 0),
-(46, 1003, 1007, 'Justice Hunters Booster Pack', 20, 'Set Size	60\r\nProduct Type	Booster\r\nOfficial Tournament Store Launch Date	07/30/2025\r\nLaunch Date	08/01/2025\r\nKonami Tournament Legal Date	08/01/2025', '2025-04-27 22:30:45', 0),
-(47, 1003, 1007, 'Duelist\'s Advance Booster Pack', 20, 'et Size	100\r\nProduct Type	Booster Pack\r\nOfficial Tournament Store Launch Date	07/02/2025\r\nLaunch Date	07/04/2025\r\nKonami Tournament Legal Date	07/04/2025', '2025-04-27 22:35:00', 0),
-(48, 1003, 1007, 'Alliance Insight Booster Pack', 20, 'Set Size	101\r\nProduct Type	Booster Pack\r\nOfficial Tournament Store Launch Date	04/30/2025\r\nLaunch Date	05/02/2025\r\nKonami Tournament Legal Date	05/02/2025', '2025-04-27 22:38:02', 0),
-(49, 1003, 1006, 'Scarlet & Violet-Destined Rivals Booster Display Box (36 Packs)', 707, 'We expect to ship this product in late May 2025. We will notify you of any changes to this date. We will not charge your card for this item until it ships. You may see a pre-authorization check on your card, but it is not a charge for this item. You may cancel your preorder by following the steps detailed here.\r\n\r\nPreorders that were placed during the preorder time frame will begin shipping in late-May. More inventory of this product will become available later this year. Please subscribe to our newsletter to receive updates.', '2025-04-27 22:49:58', 0),
-(50, 1003, 1006, 'Scarlet & Violet-Twilight Masquerade Booster Display Box (36 Packs)', 707, 'A Festival of Mischief & Mystery!\r\nWelcome to the land of Kitakami, where people and Pokémon live harmoniously with nature. Folktales abound, but not all is as it seems... Uncover the mystery of the masked Legendary Pokémon Ogerpon, appearing as four fearsome types of Tera Pokémon ex, and team up with more newly discovered Pokémon, like Bloodmoon Ursaluna ex and Sinistcha ex. Growing in power, Greninja, Dragapult, and Magcargo dazzle as Tera Pokémon ex, and more ACE SPEC cards round out the festivities in the Pokémon TCG: Scarlet & Violet—Twilight Masquerade expansion!\r\n\r\nIncludes 36 Pokémon TCG: Scarlet & Violet—Twilight Masquerade booster packs\r\nEach booster pack contains 10 cards and 1 Basic Energy. Cards vary by pack.\r\nNote: Our packaging and boxes are designed to protect the contents inside. As packaging and boxes may inadvertently be subjected to wear and tear during shipping, we are unable to offer replacement items or replace packaging for any resulting imperfections, bends, scuffs, or indentations.\r\nSKU: 699-86340', '2025-04-27 22:52:38', 0),
-(51, 1003, 1006, 'Scarlet & Violet-Paradox Rift Booster Display Box (36 Packs)', 707, 'Dive into the clouds and explore a land that appears to be unbound by time! With ferocious attacks, Ancient Pokémon like Roaring Moon ex and Sandy Shocks ex appear alongside artificial Future Pokémon like Iron Valiant ex and Iron Hands ex. Meanwhile, Garchomp ex, Mewtwo ex, and others Terastallize to gain new types, as Armarouge ex, Gholdengo ex, and more Pokémon ex join the fray. Adventure awaits as timelines collide in the Pokémon TCG: Scarlet & Violet—Paradox Rift expansion!\r\n\r\nIncludes 36 Pokémon TCG: Scarlet & Violet—Paradox Rift booster packs\r\nEach booster pack contains 10 cards and 1 Basic Energy. Cards vary by pack.\r\nNote: Our packaging and boxes are designed to protect the contents inside. As packaging and boxes may inadvertently be subjected to wear and tear during shipping, we are unable to offer replacement items or replace packaging for any resulting imperfections, bends, scuffs, or indentations.\r\nSKU: 699-85399', '2025-04-27 22:55:32', 0),
-(52, 1001, 1001, 'Sanrio characters Hello Kitty 50th Anniversary Series Figures', 50, 'Brand: POP MART\r\nSize: Height about 5.5cm-9cm\r\nMaterial: PVC/ABS\r\nA whole set contains 12 blind boxes', '2025-04-27 23:11:18', 0),
-(53, 1001, 1001, 'Sanrio characters Sweet Best Series', 43, 'Product Name： Sanrio characters Sweet Best Series \r\n\r\nBrand： POP MART\r\n\r\nMaterial： PVC/ABS \r\n\r\nSize： Height about 5.7-8.2cm', '2025-04-27 23:15:10', 0),
-(54, 1003, 1007, 'Battles of Legend: Monster Mayhem Booster Pack', 20, 'Set Size	177\r\nProduct Type	Booster\r\nOfficial Tournament Store Launch Date	06/11/2025\r\nLaunch Date	06/13/2025\r\nKonami Tournament Legal Date	06/13/2025', '2025-04-27 23:19:38', 0),
-(55, 1003, 1007, 'Wild Survivors Booster Pack', 20, 'Set Size	60\r\nProduct Type	Booster Pack\r\nOfficial Tournament Store Launch Date	05/31/2023\r\nLaunch Date	06/02/2023\r\nKonami Tournament Legal Date	06/02/2023', '2025-04-27 23:25:10', 0),
-(56, 1003, 1007, 'Amazing Defenders Booster Pack', 20, 'Set Size	60\r\nProduct Type	Booster Pack\r\nOfficial Tournament Store Launch Date	01/18/2023\r\nLaunch Date	01/20/2023\r\nKonami Tournament Legal Date	01/20/202', '2025-04-27 23:30:02', 0),
-(57, 1003, 1007, 'The Grand Creators Booster Pack', 20, 'Set Size	60\r\nProduct Type	Booster Pack\r\nOfficial Tournament Store Launch Date	01/26/2022\r\nLaunch Date	01/28/2022\r\nKonami Tournament Legal Date	01/28/2022', '2025-04-27 23:33:46', 0),
-(58, 1003, 1007, 'Secret Slayers Booster Pack', 20, 'Set Size	60\r\nOfficial Tournament Store Launch Date	04/02/2020\r\nLaunch Date	04/03/2020\r\nKonami Tournament Legal Date	04/03/2020', '2025-04-27 23:35:04', 0),
-(59, 1003, 1006, 'Sword & Shield-Darkness Ablaze Mini Portfolio & Booster Pack', 22, 'About the size of a Pokémon TCG card, mini portfolios are a compact, convenient way to store and display up to 60 cards from your collection. This one features dynamic artwork of Eternamax Eternatus and Gigantamax Charizard, and it comes with a Sword & Shield—Darkness Ablaze booster pack to get you started!\r\n\r\nMini portfolio measures about 3 ½ inches tall and 2 ½ inches wide, and it holds up to 60 cards\r\nBooster pack contains 10 cards and 1 basic Energy\r\nMini portfolio artwork features Eternamax Eternatus and Gigantamax Charizard\r\nSKU: 174-80730', '2025-04-27 23:38:03', 0),
-(60, 1003, 1006, 'Sword & Shield-Brilliant Stars Mini Portfolio & Booster Pack', 22, 'Constellations Align in a Show of Force!\r\nAbout the size of a Pokémon TCG card, mini portfolios are a compact, convenient way to store and display up to 60 cards from your collection. This one features dynamic artwork of Arceus and Sky Forme Shaymin, and it comes with a Sword & Shield—Brilliant Stars booster pack to get you started!\r\n\r\nMini portfolio measures about 3 ½ inches tall and 2 ½ inches wide, and it holds up to 60 cards\r\nBooster pack contains 10 cards and either 1 basic Energy or 1 VSTAR marker\r\nMini portfolio artwork features Arceus and Shaymin (Sky Forme) illustrated by Anesaki Dynamic\r\nSKU: 180-85009', '2025-04-27 23:47:21', 0),
-(61, 1003, 1006, 'Scarlet & Violet-Temporal Forces Booster Display Box (36 Packs)', 705, 'Ancient & Future Powers Endure!\r\nThe ranks of Ancient and Future Pokémon continue to grow! Walking Wake ex breaks free of the past alongside Raging Bolt ex, while Iron Leaves ex delivers high-tech justice with Iron Crown ex. Outside Area Zero, Wugtrio and Farigiraf shift types as Tera Pokémon ex, and Pokémon Trainers everywhere prepare for the return of ACE SPEC cards with uniquely powerful effects. A rupture in time brings wild beasts and cyber visions to battle in the Pokémon TCG: Scarlet & Violet—Temporal Forces expansion!\r\n\r\nIncludes 36 Pokémon TCG: Scarlet & Violet—Temporal Forces booster packs\r\nEach booster pack contains 10 cards and 1 Basic Energy. Cards vary by pack.\r\nNote: Our packaging and boxes are designed to protect the contents inside. As packaging and boxes may inadvertently be subjected to wear and tear during shipping, we are unable to offer replacement items or replace packaging for any resulting imperfections, bends, scuffs, or indentations.\r\nSKU: 699-86981', '2025-04-27 23:52:06', 0),
-(62, 1001, 1002, 'League of Legends: Arcane Series Figures', 96, 'Brand: POP MART \r\nSize: Height about 14cm \r\nMaterial:Fabric: PVC/ABS \r\nA whole set contains 9 blind boxes', '2025-04-28 00:03:13', 0);
+(41, 1001, 1003, 'The Monsters - Have a seat Vinyl Plush', 71, 'Brand: POP MART\r\nSize: \r\nHeight about 8*7*20cm(including hanging loop)\r\nHeight about 8*7*15cm(excluding hanging loop)\r\nMaterial: \r\nShell: 60%PVC, 40%Polyester\r\nStuffing: 70%Polyester, 20%ABS, 5%Iron Wire, 5%Nylon', '2025-03-31 20:40:03', 15);
 
 -- --------------------------------------------------------
 
@@ -512,28 +408,7 @@ INSERT INTO `product_stocks` (`StockID`, `ProductID`, `Quantity`, `LastUpdated`)
 (38, 38, 0, '2025-03-31 12:27:24'),
 (39, 39, 1, '2025-03-31 12:29:17'),
 (40, 40, 99, '2025-03-31 12:38:19'),
-(41, 41, 2221, '2025-04-24 15:31:25'),
-(42, 42, 1499, '2025-04-27 13:53:01'),
-(43, 43, 999, '2025-04-27 14:00:35'),
-(44, 44, 1000, '2025-04-27 14:23:26'),
-(45, 45, 600, '2025-04-27 14:25:56'),
-(46, 46, 50, '2025-04-27 14:30:45'),
-(47, 47, 700, '2025-04-27 14:35:00'),
-(48, 48, 300, '2025-04-27 14:38:02'),
-(49, 49, 0, '2025-04-27 14:49:58'),
-(50, 50, 10, '2025-04-27 14:52:38'),
-(51, 51, 30, '2025-04-27 14:55:32'),
-(52, 52, 200, '2025-04-27 15:11:18'),
-(53, 53, 250, '2025-04-27 15:15:10'),
-(54, 54, 500, '2025-04-27 15:19:38'),
-(55, 55, 100, '2025-04-27 15:25:10'),
-(56, 56, 900, '2025-04-27 15:30:02'),
-(57, 57, 50, '2025-04-27 15:33:46'),
-(58, 58, 100, '2025-04-27 15:35:04'),
-(59, 59, 450, '2025-04-27 15:38:03'),
-(60, 60, 200, '2025-04-27 15:47:21'),
-(61, 61, 50, '2025-04-27 15:52:06'),
-(62, 62, 800, '2025-04-27 16:03:13');
+(41, 41, 2221, '2025-04-24 15:31:25');
 
 -- --------------------------------------------------------
 
@@ -672,7 +547,7 @@ INSERT INTO `users` (`UserID`, `username`, `FirstName`, `LastName`, `Email`, `Pa
 (4, 'Customer', 'abc', 'def', 'whrlstan05@gmail.com', '$2y$12$3CfI.IZdS/vLnnZMcw89Heenz6ywMPJDGTonfHzs1m8ChbentRM3e', 'Member', 0, NULL, 0, NULL, NULL, NULL),
 (5, 'Customer1', 'hello', 'darkness', 'abc@gmail.com', '$2y$12$elPGvgorpON5QNtItQkX8OgX5PkMx7UwVSORIR78K4KpexMyrfsUK', 'Member', 1, NULL, 0, NULL, NULL, NULL),
 (6, 'Customer2', 'abcad', 'def', 'whrltan05@gmail.com', 'ed0bb91d6c91e0f3f9e9c4ca6d5e72369912a495', 'Member', 1, '6_1745514498.jpg', 1, NULL, NULL, NULL),
-(7, 'hang', 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '824ee68a8c81717087d431d66b6efaa8b63147cd', 'Admin', 1, '7_1745760540.png', 1, '2ee349c86793d50a550b11f627f564d791eebaa6f47bc1cc7d8dbbb58d5c1506', NULL, NULL),
+(7, 'hang', 'low', 'hang', 'lowwh-wp23@student.tarc.edu.my', '824ee68a8c81717087d431d66b6efaa8b63147cd', 'Member', 1, '7_1745468877.jpg', 1, NULL, NULL, NULL),
 (9, 'admin1', 'ad', 'minn', 'tanwl-wp23@student.tarc.edu.my', 'c1277ca3863bb1dfa2cba5d3f9e9a60124e49ae2', 'Admin', 1, NULL, 1, NULL, NULL, NULL),
 (14, 'SigmaAdmin', 'Sigma', 'Admin', 'storesigmamart@gmail.com', '91ea4a2f6183087985552c891336b166516fe261', 'Admin', 1, '14_1745571938.jpeg', 1, NULL, NULL, NULL);
 
@@ -849,19 +724,19 @@ ALTER TABLE `payment_logs`
 -- AUTO_INCREMENT for table `productpictures`
 --
 ALTER TABLE `productpictures`
-  MODIFY `pictureID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
+  MODIFY `pictureID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `ProductID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `ProductID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `product_stocks`
 --
 ALTER TABLE `product_stocks`
-  MODIFY `StockID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `StockID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `refund_requests`
@@ -891,7 +766,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `verification_codes`
 --
 ALTER TABLE `verification_codes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- Constraints for dumped tables
