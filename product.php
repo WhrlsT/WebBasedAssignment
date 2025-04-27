@@ -499,9 +499,6 @@ function generatePagination($currentPage, $totalPages, $numLinks = 5) {
     padding: 8px 5px;
     color: #777;
 }
-.pager-prev, .pager-next {
-    /* Add specific styles if needed, e.g., font-weight */
-}
 </style>
 <script>
 // Keep existing JS for cart popup
