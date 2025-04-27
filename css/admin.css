@@ -1608,3 +1608,44 @@
     align-items: center;
     margin-bottom: 20px;
 }
+
+.image-upload-wrapper {
+    margin-bottom: 15px;
+    /* Add other styling as needed */
+}
+
+.image-preview-box {
+    border: 2px dashed #ccc;
+    padding: 10px;
+    min-height: 100px; /* Adjust as needed */
+    display: flex; /* Use flexbox for centering */
+    flex-direction: column; /* Stack image and text */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative; /* Needed for absolute positioning of span if desired */
+    text-align: center;
+    transition: border-color 0.3s ease;
+}
+
+.image-preview-box.dragover {
+    border-color: #007bff; /* Highlight border on drag over */
+    background-color: #f8f9fa; /* Slight background change */
+}
+
+.image-preview-box img {
+    max-width: 100%;
+    max-height: 150px; /* Limit preview image height */
+    display: block;
+    margin-bottom: 5px; /* Space between image and text */
+}
+
+.image-preview-box span {
+    font-size: 0.9em;
+    color: #666;
+}
+
+/* Hide the default file input */
+.image-upload-wrapper input[type="file"] {
+    display: none;
+}

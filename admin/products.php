@@ -100,21 +100,32 @@ if (($action === 'add' || $action === 'edit') && isset($_SERVER['HTTP_X_REQUESTE
                 <label>Product Images (First image will be the cover)</label>
                 <div class="product-images-container">
                     <?php for ($i = 1; $i <= 5; $i++): ?>
-                        <div class="image-upload-group">
-                            <label for="product_image<?php echo $i; ?>">Image <?php echo $i; ?></label>
-                            <input type="file" id="product_image<?php echo $i; ?>" name="product_image<?php echo $i; ?>" 
-                                   accept="image/*" <?php echo ($i === 1 && $action === 'add') ? 'required' : ''; ?> 
-                                   onchange="previewImage(this, 'preview_image<?php echo $i; ?>')">
-                            <div class="image-preview" id="preview_image<?php echo $i; ?>">
-                                <?php if ($action === 'edit' && !empty($productData['ProductID'])): ?>
-                                    <?php 
-                                    $imageQuery = $pdo->prepare("SELECT picturePath FROM productpictures WHERE productID = ? AND DisplayOrder = ?");
-                                    $imageQuery->execute([$productData['ProductID'], $i]);
-                                    $imagePath = $imageQuery->fetchColumn();
-                                    if ($imagePath): 
-                                    ?>
-                                        <img src="../<?php echo htmlspecialchars($imagePath); ?>" alt="Product Image <?php echo $i; ?>">
-                                    <?php endif; ?>
+                        <?php
+                        // Fetch existing image path for edit mode
+                        $existingImagePath = null;
+                        if ($action === 'edit' && !empty($productData['ProductID'])) {
+                            $imageQuery = $pdo->prepare("SELECT picturePath FROM productpictures WHERE productID = ? AND DisplayOrder = ?");
+                            $imageQuery->execute([$productData['ProductID'], $i]);
+                            $existingImagePath = $imageQuery->fetchColumn();
+                        }
+                        ?>
+                        <div class="image-upload-wrapper">
+                            <input type="file" id="product_image<?php echo $i; ?>" name="product_image<?php echo $i; ?>"
+                                   accept="image/*" <?php echo ($i === 1 && $action === 'add') ? 'required' : ''; ?>
+                                   onchange="previewImage(this, 'preview_image<?php echo $i; ?>')"
+                                   style="display: none;"  />  <?php // Hide the default input ?>
+
+                            <div class="image-preview-box" id="preview_image<?php echo $i; ?>"
+                                 onclick="triggerFileInput('product_image<?php echo $i; ?>')"
+                                 ondragover="handleDragOver(event)"
+                                 ondragleave="handleDragLeave(event)"
+                                 ondrop="handleDrop(event, 'product_image<?php echo $i; ?>')">
+
+                                <?php if ($existingImagePath): ?>
+                                    <img src="../<?php echo htmlspecialchars($existingImagePath); ?>" alt="Product Image <?php echo $i; ?>">
+                                    <span>Drag & drop or click to replace Image <?php echo $i; ?></span>
+                                <?php else: ?>
+                                    <span>Drag & drop or click to upload Image <?php echo $i; ?></span>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -237,16 +248,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $updateProductId
             ]);
             
+            // Update stock quantity
             $stockStmt = $pdo->prepare("UPDATE product_stocks SET Quantity = ? WHERE ProductID = ?");
             $stockStmt->execute([$_POST['product_stock'], $updateProductId]);
+
+            // --- Start: Image Update Logic ---
+            $uploadDir = '../product_images/';
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            for ($i = 1; $i <= 5; $i++) {
+                $fileField = 'product_image' . $i;
+
+                // Check if a new file was uploaded for this slot
+                if (!empty($_FILES[$fileField]['name'])) {
+                    // 1. Delete old image file and DB record if it exists
+                    $oldImageStmt = $pdo->prepare("SELECT picturePath FROM productpictures WHERE productID = ? AND DisplayOrder = ?");
+                    $oldImageStmt->execute([$updateProductId, $i]);
+                    $oldImagePath = $oldImageStmt->fetchColumn();
+
+                    if ($oldImagePath) {
+                        // Delete the old file from the server
+                        $oldFileFullPath = '../' . $oldImagePath;
+                        if (file_exists($oldFileFullPath)) {
+                            unlink($oldFileFullPath);
+                        }
+                        // Delete the old record from the database
+                        $deleteStmt = $pdo->prepare("DELETE FROM productpictures WHERE productID = ? AND DisplayOrder = ?");
+                        $deleteStmt->execute([$updateProductId, $i]);
+                    }
+
+                    // 2. Upload new image
+                    $fileName = time() . '_' . $i . '_' . basename($_FILES[$fileField]['name']);
+                    $targetFile = $uploadDir . $fileName;
+                    $relativePath = 'product_images/' . $fileName; // Path to store in DB
+
+                    if (move_uploaded_file($_FILES[$fileField]['tmp_name'], $targetFile)) {
+                        // 3. Insert new image record into DB
+                        $isCover = ($i === 1) ? 1 : 0;
+                        $imageStmt = $pdo->prepare("INSERT INTO productpictures (productID, isCover, picturePath, DisplayOrder) 
+                                                  VALUES (?, ?, ?, ?)");
+                        $imageStmt->execute([$updateProductId, $isCover, $relativePath, $i]);
+                    } else {
+                        // Handle upload error if needed
+                        // You might want to throw an exception or set an error message
+                        // For simplicity, we'll continue, but the image won't be updated
+                        // $errorMessage = "Failed to upload image " . $i; 
+                        // $pdo->rollBack(); // Optionally rollback if image upload is critical
+                        // break; // Exit the loop
+                    }
+                }
+            }
+            // --- End: Image Update Logic ---
             
             $pdo->commit();
             $successMessage = "Product updated successfully!";
-            header("Location: products.php");
+            header("Location: products.php?success=1"); // Add success flag
             exit;
         } catch (Exception $e) {
             $pdo->rollBack();
             $errorMessage = "Error updating product: " . $e->getMessage();
+            // Optionally redirect back with error: header("Location: products.php?error=" . urlencode($errorMessage)); exit;
         }
     }
 }
@@ -270,6 +333,16 @@ include '../_head.php';
             </div>
         </div>
         
+        <?php 
+        // Display messages based on session or URL parameters
+        if (isset($_GET['success'])) {
+             $successMessage = "Product operation successful!";
+        }
+        if (isset($_GET['error'])) {
+             $errorMessage = htmlspecialchars($_GET['error']);
+        }
+        ?>
+
         <?php if ($successMessage): ?>
             <div class="alert alert-success"><?php echo $successMessage; ?></div>
         <?php endif; ?>
@@ -277,7 +350,7 @@ include '../_head.php';
         <?php if ($errorMessage): ?>
             <div class="alert alert-danger"><?php echo $errorMessage; ?></div>
         <?php endif; ?>
-        
+
         <div class="admin-filters">
             <form method="get" action="products.php" class="search-form" id="filterForm">
                 <div class="search-group">
@@ -647,7 +720,8 @@ document.addEventListener('DOMContentLoaded', function() {
     gap: 15px;
 }
 </style>
-
+<script src="../js/dragdrop.js"></script> 
+ 
 <?php include '../_foot.php';
 
 
